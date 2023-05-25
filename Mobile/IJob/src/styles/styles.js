@@ -57,6 +57,7 @@ export const styles =  StyleSheet.create({
       subButtonText:{
         color:'#9D9595',
         fontSize:17
-      }
+      },
+
       
 }) 
