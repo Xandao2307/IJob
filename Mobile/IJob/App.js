@@ -1,14 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
-import { styles } from './src/styles/styles';
-import Login from './src/pages/login';
-import Register from './src/pages/register';
+import { Pages } from './src/util/pages';
+import ServiceProviderPage from './src/pages/register/serviceProviderPage';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Register />
-    </View>
+      <>
+        <StatusBar style="auto" />
+        <ServiceProviderPage/>
+      </>
   );
 }

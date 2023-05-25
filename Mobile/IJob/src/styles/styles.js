@@ -1,8 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 
-
-
 export const styles =  StyleSheet.create({
     container: {
         flex: 1,
@@ -58,6 +56,12 @@ export const styles =  StyleSheet.create({
         color:'#9D9595',
         fontSize:17
       },
-
-      
+      containerRegisterServiceProvider:{
+        backgroundColor:'#ffffff',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        borderRadius:9,
+        marginBottom:'3%'
+      }
+    
 }) 
