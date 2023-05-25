@@ -13,6 +13,7 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [rePassword, setRePassword] = useState('')
   const [birthdate, setBirthdate] = useState('')
+  const [cep, setCep] = useState('')
 
   const [date, setDate] = useState(new Date())
   const [showPicker, setShowPicker] = useState(false)
@@ -23,7 +24,6 @@ export default function Register() {
 
   const formatDate = (rawDate) =>{
     let date = new Date(rawDate)
-
     let year = date.getFullYear()
     let month = date.getMonth() + 1
     let day = date.getDate()
@@ -45,6 +45,7 @@ export default function Register() {
           toggleDatepicker()
       }
   }
+  let cpfField = null
 
   return (
     <View style={styles.container}>
@@ -88,8 +89,20 @@ export default function Register() {
         type='cpf'
         value={cpf}
         onChangeText={text=>{setCpf(text)}}
+        ref={(ref)=> cpfField = ref}
       />
-        
+      
+      <TextInputMask 
+        style={[styles.formInput,{height: 40}]} 
+        placeholder='CEP'
+        keyboardType='number-pad'
+        autoCapitalize='none'
+        type='custom'
+        value={cep}
+        options={{mask:'99999-999'}}
+        onChangeText={text=>{setCep(text)}}
+      />
+
       <TextInput
         style={[styles.formInput,{height: 40}]}
         placeholder='Email'
