@@ -1,12 +1,15 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Login, Register} from "./src/pages/screens";
-import ServiceProviderPage from './src/pages/register/serviceProviderPage';
+import LoginScreen, { HomeNavigation, RegisterNavigation } from './src/routers/stackNavigation';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
-      <>
-        <StatusBar style="auto" />
-        <Login/>
-      </>
+    <>
+      <NavigationContainer>
+        <StatusBar style='auto'/>
+        <LoginScreen/>
+      </NavigationContainer>
+    </>
   );
 }

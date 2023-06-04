@@ -1,8 +1,12 @@
 import { View, Text, TextInput, Image , Pressable, TouchableOpacity} from 'react-native'
 import React from 'react'
 import { styles } from '../../styles/styles'
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function Login() {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.container}>
         <View style={styles.logoContainer}>
@@ -25,11 +29,15 @@ export default function Login() {
         secureTextEntry
         />
 
-        <TouchableOpacity style={styles.formButton}>
+        <TouchableOpacity
+        onPress={()=> navigation.navigate('Home')}
+        style={styles.formButton}>
            <Text style={styles.textButton}>Entrar</Text>
         </TouchableOpacity>
 
-        <Pressable>
+        <Pressable
+          onPress={()=> navigation.navigate('Register')}
+        >
             <Text style={styles.subButtonText}>Cadastre-se</Text>
         </Pressable>
     </View>

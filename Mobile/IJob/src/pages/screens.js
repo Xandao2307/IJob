@@ -1,18 +1,16 @@
 import ChatPage from "./chat";
-import InitialPage from "./initial";
 import Login from "./login";
 import Profile from "./profile";
 import Register from "./register";
 import ServiceProviderPage from "./register/serviceProviderPage";
-import SearchProfilePage from "./searchProvider";
+import SearchServiceProviderPage from "./searchServiceProvider";
 
 
 export {
     Login,
     Register,
     ServiceProviderPage,
-    SearchProfilePage,
+    SearchServiceProviderPage,
     Profile,
-    InitialPage,
     ChatPage
 }

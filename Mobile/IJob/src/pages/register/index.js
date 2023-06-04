@@ -4,6 +4,7 @@ import { styles } from '../../styles/styles'
 import { CheckBox } from '@rneui/themed';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePicker from "@react-native-community/datetimepicker"
+import { useNavigation } from "@react-navigation/native";
 
 export default function Register() {
   const [radioButtonIndex, setRadioButtonIndex] = useState(0);
@@ -46,6 +47,7 @@ export default function Register() {
       }
   }
   let cpfField = null
+  const navigation = useNavigation()
 
   return (
     <View style={styles.container}>
@@ -150,12 +152,19 @@ export default function Register() {
         value={birthdate}
         editable={false}
       />
-    </Pressable>
-      <TouchableOpacity style={[styles.formButton, {backgroundColor:'#14274E'}]}>
+    </Pressable
+    >
+      <TouchableOpacity
+       style={[styles.formButton, {backgroundColor:'#14274E'}]}
+       onPress={()=> radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Home')}
+
+       >
         <Text style={styles.textButton}>Criar Conta</Text>
       </TouchableOpacity>
 
-      <Pressable>
+      <Pressable
+        onPress={()=> navigation.navigate('Login')}
+      >
         <Text style={styles.subButtonText}>Já tenho conta</Text>
       </Pressable>
     </View>
