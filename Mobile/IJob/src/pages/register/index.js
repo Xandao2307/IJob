@@ -1,10 +1,12 @@
-import { View, Text, TextInput, Image , Pressable, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, TextInput, Image , Pressable, TouchableOpacity, Platform, Alert } from 'react-native'
 import React, { useState } from 'react';
 import { styles } from '../../styles/styles'
 import { CheckBox } from '@rneui/themed';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { useNavigation } from "@react-navigation/native";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase.config';
 
 export default function Register() {
   const [radioButtonIndex, setRadioButtonIndex] = useState(0);
@@ -15,10 +17,31 @@ export default function Register() {
   const [rePassword, setRePassword] = useState('')
   const [birthdate, setBirthdate] = useState('')
   const [cep, setCep] = useState('')
-
   const [date, setDate] = useState(new Date())
   const [showPicker, setShowPicker] = useState(false)
   
+  function newUser() {
+    if (email ==='' || password === '' || rePassword === '') {
+      alert('Preencha todos os dados')
+    }else if (password !== rePassword) {
+      alert('As senhas devem ser iguais')
+      
+    }else{
+      createUserWithEmailAndPassword(auth,email,password)
+      .then((userCrendencial) =>{
+        const user = userCrendencial.user
+        alert('O usuário foi criado')
+        radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Login')
+      }).catch((error)=>{
+        const errorMessage = error.message
+        alert(errorMessage)
+        return
+      })
+      radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Home')
+    }
+    //()=> radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Home')
+  }
+
   const toggleDatepicker = () =>{
     setShowPicker(!showPicker)
   }
@@ -48,7 +71,7 @@ export default function Register() {
   }
   let cpfField = null
   const navigation = useNavigation()
-
+  
   return (
     <View style={styles.container}>
       <Text style={[styles.formTitle,{color:'#111111', paddingBottom:-10, fontSize:36}]}>Escolha uma opção</Text>
@@ -111,6 +134,8 @@ export default function Register() {
         keyboardType='email-address'
         autoCapitalize='none'
         autoComplete='email'
+        value={email}
+        onChangeText={setEmail}
       />
       
       <TextInput 
@@ -119,6 +144,8 @@ export default function Register() {
       autoCapitalize='none'
       secureTextEntry
       autoComplete='password'
+      value={password}
+      onChangeText={setPassword}
       />
       
       <TextInput 
@@ -127,6 +154,8 @@ export default function Register() {
       autoCapitalize='none'
       secureTextEntry
       autoComplete='password'
+      value={rePassword}
+      onChangeText={setRePassword}
       />
       
       { showPicker &&(
@@ -156,7 +185,7 @@ export default function Register() {
     >
       <TouchableOpacity
        style={[styles.formButton, {backgroundColor:'#14274E'}]}
-       onPress={()=> radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Home')}
+       onPress={newUser}
 
        >
         <Text style={styles.textButton}>Criar Conta</Text>
