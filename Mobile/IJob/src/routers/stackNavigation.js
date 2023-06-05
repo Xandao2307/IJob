@@ -1,6 +1,6 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Login, ChatPage, Profile, Register, ServiceProviderPage, SearchServiceProviderPage } from "../pages/screens";
+import { Login, ChatPage, Profile, Register, ServiceProviderPage, SearchServiceProviderPage, ShowEmployes } from "../pages/screens";
 import { ShowButtonTabs } from './ButtonTabs';
 
 const Stack = createNativeStackNavigator()
@@ -15,6 +15,7 @@ export default function LoginScreen() {
             <Stack.Screen name='Login' component={Login} />
             <Stack.Screen name='Register' component={Register}/>
             <Stack.Screen name='ServiceProvider' component={ServiceProviderPage}/>
+            <Stack.Screen name='ShowEmployes' component={ShowEmployes}/>
             <Stack.Screen name='Home' component={ShowButtonTabs}/>
         </Stack.Navigator>
     )

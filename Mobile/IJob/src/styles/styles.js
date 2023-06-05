@@ -62,6 +62,10 @@ export const styles =  StyleSheet.create({
         justifyContent: 'center',
         borderRadius:9,
         marginBottom:'3%'
-      }
+      },
+      imageInitial:{
+        height:300,
+        width:300,
+      },
     
 }) 

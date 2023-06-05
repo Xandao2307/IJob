@@ -2,6 +2,7 @@ import { View, Text , TouchableOpacity, Pressable} from 'react-native'
 import React, {useState} from 'react'
 import { styles } from '../../styles/styles'
 import { CheckBox } from '@rneui/themed';
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function ServiceProviderPage() {
@@ -16,6 +17,7 @@ export default function ServiceProviderPage() {
     const [checkedPedreiro, setCheckedPedreiro] = useState(false)
     const [checkedEletricista, setCheckedEletricista] = useState(false)
     const [checkedPintor, setCheckedPintor] = useState(false)
+    const navigation = useNavigation()
 
     const toggleCheckbox = (checked, setChecked) => setChecked(!checked)
 
@@ -139,11 +141,11 @@ export default function ServiceProviderPage() {
                 />
         </View>
 
-        <TouchableOpacity style={[styles.formButton, {backgroundColor:'#14274E'}]}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Home')} style={[styles.formButton, {backgroundColor:'#14274E'}]}>
             <Text style={styles.textButton}>Finalizar</Text>
         </TouchableOpacity>
 
-        <Pressable>
+        <Pressable onPress={()=>navigation.navigate('Home')}>
             <Text style={styles.subButtonText}>Cadastrar serviços depois</Text>
         </Pressable>
 
