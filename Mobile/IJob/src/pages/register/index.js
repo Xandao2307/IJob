@@ -10,7 +10,7 @@ import { auth } from '../../firebase.config';
 
 export default function Register() {
   const [radioButtonIndex, setRadioButtonIndex] = useState(0);
-  const [Name, setName] = useState('')
+  const [name, setName] = useState('')
   const [cpf, setCpf] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,15 +29,14 @@ export default function Register() {
     }else{
       createUserWithEmailAndPassword(auth,email,password)
       .then((userCrendencial) =>{
-        const user = userCrendencial.user
         alert('O usuário foi criado')
         radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Login')
       }).catch((error)=>{
         const errorMessage = error.message
         alert(errorMessage)
+        navigation.navigate('Register')
         return
       })
-      radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Home')
     }
     //()=> radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Home')
   }
@@ -69,7 +68,7 @@ export default function Register() {
           toggleDatepicker()
       }
   }
-  let cpfField = null
+
   const navigation = useNavigation()
   
   return (
@@ -105,6 +104,8 @@ export default function Register() {
         style={[styles.formInput,{height: 40}]} 
         placeholder='Nome'
         autoCapitalize='none'
+        value={name}
+        onChangeText={text => {setName(text)}}
       />
       <TextInputMask 
         style={[styles.formInput,{height: 40}]} 
@@ -186,7 +187,6 @@ export default function Register() {
       <TouchableOpacity
        style={[styles.formButton, {backgroundColor:'#14274E'}]}
        onPress={newUser}
-
        >
         <Text style={styles.textButton}>Criar Conta</Text>
       </TouchableOpacity>
