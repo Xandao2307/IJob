@@ -1,8 +1,9 @@
-import { View, Text , TouchableOpacity, Pressable} from 'react-native'
+import { View, Text ,TextInput, TouchableOpacity, Pressable, ScrollView} from 'react-native'
 import React, {useState} from 'react'
 import { styles } from '../../styles/styles'
 import { CheckBox } from '@rneui/themed';
 import { useNavigation } from "@react-navigation/native";
+import { Alert } from 'react-native';
 
 
 export default function ServiceProviderPage() {
@@ -17,139 +18,179 @@ export default function ServiceProviderPage() {
     const [checkedPedreiro, setCheckedPedreiro] = useState(false)
     const [checkedEletricista, setCheckedEletricista] = useState(false)
     const [checkedPintor, setCheckedPintor] = useState(false)
+    const [descricao, setDescricao] = useState('')
     const navigation = useNavigation()
 
     const toggleCheckbox = (checked, setChecked) => setChecked(!checked)
 
+    function newWorker(params) {
+        
+        Alert.alert('Registro concluido!', 'Deseja enviar suas imagens de seviços anteriores agora ?', [
+            {
+              text: 'Enviar agora',
+              onPress: () => navigation.navigate('Home')
+            },
+            {
+                text: 'Depois eu envio',
+                onPress: () => navigation.navigate('Home')
+            },
+            {
+              text: 'Cancelar',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },  
+          ],
+          {
+            cancelable: true,
+          },
+          )
+
+    }
+
   return (
-    <View style={styles.container}>
-        <Text style={[styles.formTitle,{color:'#111111', fontSize:28, paddingBottom: 10}]}>Serviços disponibilizados:</Text>
+    <>
+        <ScrollView>
+            <View style={[styles.container ,{ marginTop:'10%'}]}>
+                    
+                    <Text style={[styles.formTitle,{color:'#111111', fontSize:28, paddingBottom: 10}]}>Serviços disponibilizados:</Text>
 
-        <View style={styles.containerRegisterServiceProvider}>
-            <CheckBox
-                checked={checkedManicure}
-                onPress={ ()=>toggleCheckbox(checkedManicure,setCheckedManicure)}
-                checkedIcon="square"
-                uncheckedIcon="square"
-                checkedColor='#111111'
-                uncheckedColor='#D9D9D9'
-                title="Manicure"
-                textStyle={{fontSize:17}}
-                size={20}
-            />
-            <CheckBox
-                checked={checkedLimpeza}
-                onPress={ ()=>toggleCheckbox(checkedLimpeza,setCheckedLimpeza)}
-                checkedIcon="square"
-                uncheckedIcon="square"
-                checkedColor='#111111'
-                uncheckedColor='#D9D9D9'
-                title="Serviço de limpeza"
-                textStyle={{fontSize:17}}
-                size={20}
-             />
-            <CheckBox
-                checked={checkedComputador}
-                onPress={ ()=>toggleCheckbox(checkedComputador,setCheckedComputador)}
-                checkedIcon="square"
-                uncheckedIcon="square"
-                checkedColor='#111111'
-                uncheckedColor='#D9D9D9'
-                title="Manutenção de Computadores"
-                textStyle={{fontSize:17}}
-                size={20}
-            />
-            <CheckBox
-                checked={checkedCarreto}
-                onPress={ ()=>toggleCheckbox(checkedCarreto,setCheckedCarreto)}
-                checkedIcon="square"
-                uncheckedIcon="square"
-                checkedColor='#111111'
-                uncheckedColor='#D9D9D9'
-                title="Carretos (Transporte de móveis)"
-                textStyle={{fontSize:17}}
-                size={20}
-            />
-            <CheckBox
-                checked={checkedMassagista}
-                onPress={ ()=>toggleCheckbox(checkedMassagista,setCheckedMassagista)}
-                checkedIcon="square"
-                uncheckedIcon="square"
-                checkedColor='#111111'
-                uncheckedColor='#D9D9D9'
-                title="Massagista"
-                textStyle={{fontSize:17}}
-                size={20}
-            />
+                    <View style={styles.containerRegisterServiceProvider}>
+                        <CheckBox
+                            checked={checkedManicure}
+                            onPress={ ()=>toggleCheckbox(checkedManicure,setCheckedManicure)}
+                            checkedIcon="square"
+                            uncheckedIcon="square"
+                            checkedColor='#111111'
+                            uncheckedColor='#D9D9D9'
+                            title="Manicure"
+                            textStyle={{fontSize:17}}
+                            size={20}
+                        />
+                        <CheckBox
+                            checked={checkedLimpeza}
+                            onPress={ ()=>toggleCheckbox(checkedLimpeza,setCheckedLimpeza)}
+                            checkedIcon="square"
+                            uncheckedIcon="square"
+                            checkedColor='#111111'
+                            uncheckedColor='#D9D9D9'
+                            title="Serviço de limpeza"
+                            textStyle={{fontSize:17}}
+                            size={20}
+                        />
+                        <CheckBox
+                            checked={checkedComputador}
+                            onPress={ ()=>toggleCheckbox(checkedComputador,setCheckedComputador)}
+                            checkedIcon="square"
+                            uncheckedIcon="square"
+                            checkedColor='#111111'
+                            uncheckedColor='#D9D9D9'
+                            title="Manutenção de Computadores"
+                            textStyle={{fontSize:17}}
+                            size={20}
+                        />
+                        <CheckBox
+                            checked={checkedCarreto}
+                            onPress={ ()=>toggleCheckbox(checkedCarreto,setCheckedCarreto)}
+                            checkedIcon="square"
+                            uncheckedIcon="square"
+                            checkedColor='#111111'
+                            uncheckedColor='#D9D9D9'
+                            title="Carretos (Transporte de móveis)"
+                            textStyle={{fontSize:17}}
+                            size={20}
+                        />
+                        <CheckBox
+                            checked={checkedMassagista}
+                            onPress={ ()=>toggleCheckbox(checkedMassagista,setCheckedMassagista)}
+                            checkedIcon="square"
+                            uncheckedIcon="square"
+                            checkedColor='#111111'
+                            uncheckedColor='#D9D9D9'
+                            title="Massagista"
+                            textStyle={{fontSize:17}}
+                            size={20}
+                        />
 
-        </View>
-        <View style={styles.containerRegisterServiceProvider}>
-            <CheckBox
-                    checked={checkedMontador}
-                    onPress={ ()=>toggleCheckbox(checkedMontador,setCheckedMontador)}
-                    checkedIcon="square"
-                    uncheckedIcon="square"
-                    checkedColor='#111111'
-                    uncheckedColor='#D9D9D9'
-                    title="Montador de Imóveis"
-                    textStyle={{fontSize:17}}
-                    size={20}
-                />
-             <CheckBox
-                    checked={checkedEncanador}
-                    onPress={ ()=>toggleCheckbox(checkedEncanador,setCheckedEncanador)}
-                    checkedIcon="square"
-                    uncheckedIcon="square"
-                    checkedColor='#111111'
-                    uncheckedColor='#D9D9D9'
-                    title="Encanador (Reparos Hidráulicos)"
-                    textStyle={{fontSize:17}}
-                    size={20}
-                />
-             <CheckBox
-                    checked={checkedPedreiro}
-                    onPress={ ()=>toggleCheckbox(checkedPedreiro,setCheckedPedreiro)}
-                    checkedIcon="square"
-                    uncheckedIcon="square"
-                    checkedColor='#111111'
-                    uncheckedColor='#D9D9D9'
-                    title="Pedreiro"
-                    textStyle={{fontSize:17}}
-                    size={20}
-                />
-             <CheckBox
-                    checked={checkedEletricista}
-                    onPress={ ()=>toggleCheckbox(checkedEletricista,setCheckedEletricista)}
-                    checkedIcon="square"
-                    uncheckedIcon="square"
-                    checkedColor='#111111'
-                    uncheckedColor='#D9D9D9'
-                    title="Eletricista (Reparos Elétricos)"
-                    textStyle={{fontSize:17}}
-                    size={20}
-                />
-             <CheckBox
-                    checked={checkedPintor}
-                    onPress={ ()=>toggleCheckbox(checkedPintor,setCheckedPintor)}
-                    checkedIcon="square"
-                    uncheckedIcon="square"
-                    checkedColor='#111111'
-                    uncheckedColor='#D9D9D9'
-                    title="Pintor"
-                    textStyle={{fontSize:17}}
-                    size={20}
-                />
-        </View>
+                    </View>
+                    <View style={styles.containerRegisterServiceProvider}>
+                        <CheckBox
+                                checked={checkedMontador}
+                                onPress={ ()=>toggleCheckbox(checkedMontador,setCheckedMontador)}
+                                checkedIcon="square"
+                                uncheckedIcon="square"
+                                checkedColor='#111111'
+                                uncheckedColor='#D9D9D9'
+                                title="Montador de Imóveis"
+                                textStyle={{fontSize:17}}
+                                size={20}
+                            />
+                        <CheckBox
+                                checked={checkedEncanador}
+                                onPress={ ()=>toggleCheckbox(checkedEncanador,setCheckedEncanador)}
+                                checkedIcon="square"
+                                uncheckedIcon="square"
+                                checkedColor='#111111'
+                                uncheckedColor='#D9D9D9'
+                                title="Encanador (Reparos Hidráulicos)"
+                                textStyle={{fontSize:17}}
+                                size={20}
+                            />
+                        <CheckBox
+                                checked={checkedPedreiro}
+                                onPress={ ()=>toggleCheckbox(checkedPedreiro,setCheckedPedreiro)}
+                                checkedIcon="square"
+                                uncheckedIcon="square"
+                                checkedColor='#111111'
+                                uncheckedColor='#D9D9D9'
+                                title="Pedreiro"
+                                textStyle={{fontSize:17}}
+                                size={20}
+                            />
+                        <CheckBox
+                                checked={checkedEletricista}
+                                onPress={ ()=>toggleCheckbox(checkedEletricista,setCheckedEletricista)}
+                                checkedIcon="square"
+                                uncheckedIcon="square"
+                                checkedColor='#111111'
+                                uncheckedColor='#D9D9D9'
+                                title="Eletricista (Reparos Elétricos)"
+                                textStyle={{fontSize:17}}
+                                size={20}
+                            />
+                        <CheckBox
+                                checked={checkedPintor}
+                                onPress={ ()=>toggleCheckbox(checkedPintor,setCheckedPintor)}
+                                checkedIcon="square"
+                                uncheckedIcon="square"
+                                checkedColor='#111111'
+                                uncheckedColor='#D9D9D9'
+                                title="Pintor"
+                                textStyle={{fontSize:17}}
+                                size={20}
+                            />
+                    </View>
 
-        <TouchableOpacity onPress={()=>navigation.navigate('Home')} style={[styles.formButton, {backgroundColor:'#14274E'}]}>
-            <Text style={styles.textButton}>Finalizar</Text>
-        </TouchableOpacity>
+                    <View style= {{alignSelf:'flex-start', marginLeft:'10%'}}>
+                        <Text style={{color:'black',fontSize:16, fontWeight:'bold'}}>Fale um pouco sobre você:</Text>
+                    </View>
+                    <TextInput
+                    style={[styles.formInput,{backgroundColor:"white", height:150,textAlignVertical:'top'}]}
+                    keyboardType='default'
+                    autoCapitalize='none'
+                    multiline={true}
+                    value={descricao}
+                    onChangeText={setDescricao}
+                    />
+                    
+                    <TouchableOpacity onPress={newWorker} style={[styles.formButton, {backgroundColor:'#14274E'}]}>
+                        <Text style={styles.textButton}>Finalizar</Text>
+                    </TouchableOpacity>
 
-        <Pressable onPress={()=>navigation.navigate('Home')}>
-            <Text style={styles.subButtonText}>Cadastrar serviços depois</Text>
-        </Pressable>
-
-    </View>            
-
+                    <Pressable onPress={newWorker}>
+                        <Text style={[styles.subButtonText, {marginBottom:'6%'}]}>Cadastrar serviços depois</Text>
+                    </Pressable>
+            </View>          
+        </ScrollView> 
+    </>
   )
 }

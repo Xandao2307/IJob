@@ -6,7 +6,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase.config';
+import { auth } from '../../config/firebase.config';
 
 export default function Register() {
   const [radioButtonIndex, setRadioButtonIndex] = useState(0);
