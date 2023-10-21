@@ -12,9 +12,9 @@ export default function Login() {
   const [password, setPassword] = useState('')
 
   function userLogin() {
-    alert('Bem vindo')
     signInWithEmailAndPassword(auth,email,password)
     .then((userCrendencial)=>{
+      alert('Bem vindo')
       const user = userCrendencial.user
       navigation.navigate('Home')
     })

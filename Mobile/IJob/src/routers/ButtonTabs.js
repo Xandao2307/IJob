@@ -9,15 +9,23 @@ export  function ShowButtonTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
-          headerShown:false,
           tabBarStyle:{
             borderTopWidth:0,
-            height:80,
-            
+            height:70,
           },
           tabBarActiveTintColor:'#2D384C',
           tabBarLabelStyle:{
-            fontSize:14
+            fontSize:17,
+          },
+          headerStyle:{
+            backgroundColor:'#394867',
+            height:115,
+          },
+          headerTintColor:'#fff',
+          headerTitleStyle:{
+            fontSize:35,
+            fontWeight:'bold',
+            color:'#F1F6F9',
           }
         }
       }
@@ -25,22 +33,22 @@ export  function ShowButtonTabs() {
         <Tab.Screen 
           options={{
             tabBarIcon: (focused,color,size)=>{
-              if (focused) {
-                return <FontAwesome name='compass' size={27} color={color}/>
+              if (!focused.focused) {
+                return <FontAwesome name='compass' size={40} color={'#2D384C'}/>
               }
-              else return <FontAwesome name='compass' size={27} color={color}/>
+              else return <FontAwesome name='compass' size={40} color={'#555D6C'}/>
             }
           }}
-          name='Procurar'
+          name='Bem vindo'
           component={SearchServiceProviderPage} />
 
         <Tab.Screen
             options={{
               tabBarIcon: (focused,color,size)=>{
-                if (focused) {
-                  return <FontAwesome name='comments' size={27} color={color}/>
+                if (!focused.focused) {
+                  return <FontAwesome name='comments' size={40} color={'#2D384C'}/>
                 }
-                return <FontAwesome name='comments-o' size={27} color={color}/>
+                else return <FontAwesome name='comments-o' size={40} color={'#2D384C'}/>
               }
             }}
           name='Chat' 
@@ -49,10 +57,10 @@ export  function ShowButtonTabs() {
         <Tab.Screen
             options={{
               tabBarIcon: (focused,color,size)=>{
-                if (focused) {
-                  return <FontAwesome name='user' size={27} color={color}/>
+                if (!focused.focused) {
+                  return <FontAwesome name='user' size={40} color={'#2D384C'}/>
                 }
-                return <FontAwesome name='user-o' size={27} color={color}/>
+                else return <FontAwesome name='user-o' size={40} color={'#2D384C'}/>
               }
             }} 
           name='Perfil'

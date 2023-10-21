@@ -42,7 +42,6 @@ export const styles =  StyleSheet.create({
         backgroundColor:'#394867',
         margin:10,
         padding:10,
-        borderRadius:9.82177,
         borderRadius:10,
         alignItems:'center',
         width: 309.93,
@@ -67,5 +66,20 @@ export const styles =  StyleSheet.create({
         height:300,
         width:300,
       },
-    
+      dropDownPicker:{
+        borderColor:'#394867',
+        borderWidth:1,
+        borderRadius:9.82177,
+        fontSize:16,
+        width: 200,
+        height: 46.93
+      },
+      buttonDropDownPicker:{
+        backgroundColor:'#394867',
+        borderRadius:10,
+        alignItems:'center',
+        width: '20%',
+        height: 40
+      }
+      
 }) 
