@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { SearchServiceProviderPage, ChatPage, Profile } from "../pages/screens";
+import { SearchServiceProviderPage, ChatPage, Profile, Historic } from "../pages/screens";
 import { FontAwesome } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator()
@@ -65,6 +65,18 @@ export  function ShowButtonTabs() {
             }} 
           name='Perfil'
           component={Profile} />
+
+        <Tab.Screen
+            options={{
+              tabBarIcon: (focused,color,size)=>{
+                if (!focused.focused) {
+                  return <FontAwesome name='calendar' size={40} color={'#2D384C'}/>
+                }
+                else return <FontAwesome name='calendar-o' size={40} color={'#2D384C'}/>
+              }
+            }} 
+          name='Historico'
+          component={Historic} />
     </Tab.Navigator>
   )
 }

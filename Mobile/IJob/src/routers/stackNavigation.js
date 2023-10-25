@@ -1,6 +1,6 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Login, ChatPage, Profile, Register, ServiceProviderPage, SearchServiceProviderPage, ShowEmployes } from "../pages/screens";
+import { Login, ChatPage, Profile, Register, ServiceProviderPage, SearchServiceProviderPage, ShowEmployes, Historic } from "../pages/screens";
 import { ShowButtonTabs } from './ButtonTabs';
 
 const Stack = createNativeStackNavigator()
@@ -16,6 +16,7 @@ export default function LoginScreen() {
             <Stack.Screen name='Register' component={Register}/>
             <Stack.Screen name='ServiceProvider' component={ServiceProviderPage}/>
             <Stack.Screen name='ShowEmployes' component={ShowEmployes}/>
+            <Stack.Screen name='Historic' component={Historic}/>
             <Stack.Screen name='Home' component={ShowButtonTabs}/>
         </Stack.Navigator>
     )
@@ -72,6 +73,14 @@ export function SearchServiceProviderNavigation() {
     return(
         <Stack.Navigator>
             <Stack.Screen name='SearchServiceProvider' component={SearchServiceProviderPage}/>
+        </Stack.Navigator>
+    )
+}
+
+export function HistoricNavigation() {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name='Historic' component={Historic}/>
         </Stack.Navigator>
     )
 }
