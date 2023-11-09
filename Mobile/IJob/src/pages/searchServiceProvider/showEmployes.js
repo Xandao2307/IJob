@@ -1,129 +1,61 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Image, Linking } from 'react-native';
+import { View, ScrollView, StyleSheet, Linking } from 'react-native';
 import { Text, Card, Button } from '@rneui/themed';
-import { FontAwesome } from "@expo/vector-icons";
+import { Header } from '@rneui/base';
+import { useNavigation } from "@react-navigation/native";
 
 
 const openUrlButton = () =>{
      Linking.openURL('www.google.com.br')
 }
 export default function ShowEmployes() {
+const navigation = useNavigation()
+const goBack = () => {
+  navigation.goBack()
+}
   return (
-<>
-      <View style={styles.container}>
-        <ScrollView>
-
-        <Card containerStyle={styles.card}>
-          <Card.Title style={styles.name}>Jorge Henrique</Card.Title>
-          <Card.Divider />
-          <Card.Image
-            style={styles.image}
-            source={require('../../assets/jorge.jpg')}
-          />
-          <Text style={{ marginBottom: 10 ,fontSize:16}}>
-            Sou Jorge sou pintor a 15 anos, faço todos os tipos de pinturas menos grafiato.
+      <View style={stylesCard.container}>
+        <Header
+        backgroundColor='#394867'
+         leftComponent={{
+          icon: 'arrow-back',
+          color: '#fff',
+          size:42,
+          onPress:goBack
+         }
+       }
+        centerComponent={{ text: 'Profionais Encontrados', style:{ alignSelf:'flex-start', width:'200%', color:'#F1F6F9', fontSize:25, fontWeight:'bold',}}}
+        />
+        <ScrollView style={{paddingTop:10}}>
+          <Card containerStyle={{marginTop:15}}>
+            <Card.Title style={{fontSize:24,fontWeight:'bold'}}>Manicure/Pedicure</Card.Title>
+            <Card.Divider />
+            <Text style={{fontSize:24, backgroundColor:'#D9D9D9', color:'#14274E',fontWeight:'bold',borderRadius:5, paddingLeft:5, marginBottom:12}}>
+              Ana Maria Carolina
+            </Text>
+            <Text style={{ marginBottom: 10, fontSize:14}}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula hendrerit lectus eleifend iaculis. Nam porta, odio eget rutrum porta, nisl leo rutrum nulla, at fringilla velit tellus vel sem. Maecenas fermentum purus et dolor interdum, nec egestas leo suscipit.
           </Text>
-          <Button
-            icon={
-              <FontAwesome
-                name="whatsapp"
-                color="#ffffff"
-                style={{paddingRight:2}}
-                size={20}
-              />
-            }
-            buttonStyle={styles.button}
-            title="Contate-me"
-            onPress={()=>{Linking.openURL('https://api.whatsapp.com/send?phone=5513997318146&text=Oi%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es%20sobre%20seus%20serviços')}}
+            <Button
+            buttonStyle={[stylesCard.button, {backgroundColor:'#14274E',}]}
+            titleStyle={{fontSize:24}}
+            title="Detalhes"
+            onPress={()=>{}}
           />
-        </Card>
-
-        <Card containerStyle={styles.card}>
-          <Card.Title style={styles.name} >Anna Beatriz</Card.Title>
-          <Card.Divider />
-          <Card.Image
-            style={styles.image}
-            source={require('../../assets/anna.jpg')}
-          />
-          <Text style={{ marginBottom: 10 ,fontSize:16 }}>
-            Sou cabeleleira profissional a 9 anos, Venha conhecer a "Anna Coiffeur"
-          </Text>
-          <Button
-            icon={
-              <FontAwesome
-                name="whatsapp"
-                color="#ffffff"
-                style={{paddingRight:2}}
-                size={20}
-              />
-            }
-            buttonStyle={styles.button}
-            title="Contate-me"
-            onPress={()=>{Linking.openURL('https://api.whatsapp.com/send?phone=5513997318146&text=Oi%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es%20sobre%20seus%20serviços')}}
-
-          />
-        </Card>
-
-        <Card containerStyle={styles.card}>
-          <Card.Title style={styles.name}>Fábio Bravo</Card.Title>
-          <Card.Divider />
-          <Card.Image
-            style={styles.image}
-            source={require('../../assets/fabio.jpg')}
-          />
-          <Text style={{ marginBottom: 10 ,fontSize:16}}>
-            Sou advogado e econtador, venha declara seu imposto de renda comigo, 
-            condições especiais quem chamar por esse numero.
-          </Text>
-          <Button
-            icon={
-              <FontAwesome
-                name="whatsapp"
-                color="#ffffff"
-                style={{paddingRight:2}}
-                size={20}
-              />
-            }
-            buttonStyle={styles.button}
-            title="Contate-me"
-            onPress={()=>{Linking.openURL('https://api.whatsapp.com/send?phone=5513997318146&text=Oi%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es%20sobre%20seus%20serviços')}}
-
-          />
-        </Card>
+          </Card>
 
         </ScrollView>
       </View>
-  </>
   )
 }
 
-const styles = StyleSheet.create({
+const stylesCard = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F1F6F9',
         alignItems: 'center',
         justifyContent: 'center',
     
-    },
-    fonts: {
-      marginBottom: 8,
-    },
-    user: {
-      flexDirection: 'row',
-      marginBottom: 6,
-    },
-    image: {
-      width: 300,
-      height: 300,
-      alignSelf:'center',
-    },
-    name: {
-      fontSize: 20,
-    },
-    card:{
-        marginTop:'12%',
-        borderRadius:6,
-        alignItems:'center'
     },
     button:{
         backgroundColor:'#394867',
