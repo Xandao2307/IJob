@@ -6,7 +6,7 @@ import ServiceProviderPage from "./register/serviceProviderPage";
 import SearchServiceProviderPage from "./searchServiceProvider";
 import ShowEmployes from "./searchServiceProvider/showEmployes";
 import Historic from "./historic";
-
+import Details from "./details/";
 export {
     Login,
     Register,
@@ -15,5 +15,6 @@ export {
     Profile,
     ChatPage,
     ShowEmployes,
-    Historic
+    Historic,
+    Details
 }

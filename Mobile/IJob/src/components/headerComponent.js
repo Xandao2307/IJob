@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
 import { Header } from '@rneui/base';
 import { useNavigation } from "@react-navigation/native";
 
-const headerComponent = (props) => {
+export default function headerComponent(props) {
     const navigation = useNavigation()
     const goBack = () => navigation.goBack()
   return (
@@ -22,5 +22,3 @@ const headerComponent = (props) => {
     </View>
   )
 }
-
-export default headerComponent

@@ -1,7 +1,11 @@
 import { View, Text , StyleSheet} from 'react-native'
 import React from 'react'
+import { Card, Button } from '@rneui/themed';
+import { useNavigation } from "@react-navigation/native";
 
-const cardComponent = (props) => {
+export default function cardComponent(props){
+
+  const navigation = useNavigation()
   return (
     <View>
       <Card containerStyle={{marginTop:15}}>
@@ -17,16 +21,13 @@ const cardComponent = (props) => {
             buttonStyle={[styles.button, {backgroundColor:'#14274E',}]}
             titleStyle={{fontSize:24}}
             title="Detalhes"
+            onPress={() => navigation.navigate("Details")}
           />
       </Card>
     </View>
     
   )
 }
-
-export default cardComponent
-
-
 const styles = StyleSheet.create({
   container: {
       flex: 1,
