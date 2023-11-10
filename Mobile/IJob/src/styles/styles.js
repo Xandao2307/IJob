@@ -7,6 +7,7 @@ export const styles =  StyleSheet.create({
         backgroundColor: '#F1F6F9',
         alignItems: 'center',
         justifyContent: 'center',
+        
       },
       logoContainer:{
         paddingBottom:'18%'
@@ -36,7 +37,8 @@ export const styles =  StyleSheet.create({
         padding:10,
         margin:10,
         width: 309.93,
-        height: 46.93
+        height: 46.93,
+        
       },
       formButton:{
         backgroundColor:'#394867',

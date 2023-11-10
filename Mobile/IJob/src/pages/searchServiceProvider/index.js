@@ -38,7 +38,7 @@ export default function SearchServiceProviderPage() {
         setValue={setValue}
         setItems={setItems}
         placeholder='Selecione aqui profissional desejado'
-        style={[styles.formInput,{width:'95%'}]}/>
+        style={[styles.formInput,{width:'95%', backgroundColor:'white', borderColor:'gray', elevation:10}]}/>
 
         <TouchableOpacity onPress={findWorkers} style={styles.formButton}>
           <Text style={styles.textButton}>Buscar</Text>

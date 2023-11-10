@@ -8,10 +8,10 @@ export default function cardComponent(props){
   const navigation = useNavigation()
   return (
     <View>
-      <Card containerStyle={{marginTop:15}}>
+      <Card containerStyle={{marginTop:15, elevation:5 }}>
         <Card.Title style={{fontSize:24,fontWeight:'bold'}}>{props.profession}</Card.Title>
         <Card.Divider />
-        <Text style={{fontSize:24, backgroundColor:'#D9D9D9', color:'#14274E',fontWeight:'bold',borderRadius:5, paddingLeft:5, marginBottom:12}}>
+        <Text style={{fontSize:24, backgroundColor:'#F5F5F5', color:'#14274E',fontWeight:'bold',borderRadius:5, paddingLeft:5, marginBottom:12}}>
           {props.name}
         </Text>
         <Text style={{ marginBottom: 10, fontSize:14}}>
