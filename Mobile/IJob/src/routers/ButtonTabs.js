@@ -34,9 +34,9 @@ export  function ShowButtonTabs() {
           options={{
             tabBarIcon: (focused,color,size)=>{
               if (!focused.focused) {
-                return <FontAwesome name='compass' size={40} color={'#2D384C'}/>
+                return <FontAwesome name='compass' size={40} color={'#98A8C7'}/>
               }
-              else return <FontAwesome name='compass' size={40} color={'#555D6C'}/>
+              else return <FontAwesome name='compass' size={40} color={'#2D384C'}/>
             }
           }}
           name='Bem vindo'
@@ -46,7 +46,7 @@ export  function ShowButtonTabs() {
             options={{
               tabBarIcon: (focused,color,size)=>{
                 if (!focused.focused) {
-                  return <FontAwesome name='comments' size={40} color={'#2D384C'}/>
+                  return <FontAwesome name='comments' size={40} color={'#98A8C7'}/>
                 }
                 else return <FontAwesome name='comments-o' size={40} color={'#2D384C'}/>
               }
@@ -58,7 +58,7 @@ export  function ShowButtonTabs() {
             options={{
               tabBarIcon: (focused,color,size)=>{
                 if (!focused.focused) {
-                  return <FontAwesome name='user' size={40} color={'#2D384C'}/>
+                  return <FontAwesome name='user' size={40} color={'#98A8C7'}/>
                 }
                 else return <FontAwesome name='user-o' size={40} color={'#2D384C'}/>
               }
@@ -70,7 +70,7 @@ export  function ShowButtonTabs() {
             options={{
               tabBarIcon: (focused,color,size)=>{
                 if (!focused.focused) {
-                  return <FontAwesome name='calendar' size={40} color={'#2D384C'}/>
+                  return <FontAwesome name='calendar' size={40} color={'#98A8C7'}/>
                 }
                 else return <FontAwesome name='calendar-o' size={40} color={'#2D384C'}/>
               }
