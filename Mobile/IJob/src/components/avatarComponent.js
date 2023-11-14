@@ -1,5 +1,5 @@
 import { Avatar } from '@rneui/themed'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 export default function avatarComponent(props) {
     return (

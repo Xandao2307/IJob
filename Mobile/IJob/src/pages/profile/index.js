@@ -9,8 +9,8 @@ export default function Profile() {
   return (
     <View style={{backgroundColor:"#F1F6F9", flex:1}}>
       <View style = {[styles.container, {flex:0}]}>
-        <View style={{marginTop:40}}>
-          <AvatarComponent size={150}/>
+        <View style={{marginTop:35}}>
+          <AvatarComponent size={155}/>
         </View>
         <Text style={[styles.formTitle,{fontSize:28, paddingBottom:0,marginTop:20, margin:0,marginLeft:30, alignSelf:'flex-start'}]}>Silvia Pacheco</Text>  
         
@@ -35,7 +35,7 @@ export default function Profile() {
 
           <Image
             source={{ uri: 'https://www.iped.com.br/_upload/content/2014/11/14/boa-manicure-pedicure.jpg'}}
-            style={{ width: 130, height: 130 }}
+            style={{ width: 115, height: 115 }}
           />
         </View>
 
