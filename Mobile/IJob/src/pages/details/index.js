@@ -5,7 +5,10 @@ import HeaderComponent from "../../components/headerComponent";
 import { AirbnbRating,  Button, Card, Rating } from '@rneui/base';
 import AvatarComponent from '../../components/avatarComponent'
 import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 export default function Details() {
+  const navigation = useNavigation()
   return (
    <View style={{backgroundColor:'#F1F6F9'}}> 
     <HeaderComponent
@@ -60,10 +63,12 @@ export default function Details() {
            
           </View>
         </Card>
+
         <TouchableOpacity style={[styles.formButton, {backgroundColor:'#14274E', elevation:5 , marginBottom:0}]}>
           <Text style={styles.textButton}>Iniciar Chat</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.formButton, {backgroundColor:'#14274E', elevation:10 }]}>
+
+        <TouchableOpacity onPress={()=> navigation.navigate('Scheduling')} style={[styles.formButton, {backgroundColor:'#14274E', elevation:10 }]}>
           <Text style={styles.textButton}>Agendar</Text>
         </TouchableOpacity>
       </View>

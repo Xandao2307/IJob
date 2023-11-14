@@ -8,6 +8,7 @@ import ShowEmployes from "./searchServiceProvider/showEmployes";
 import Historic from "./historic";
 import Details from "./details/";
 import Assessement from "./assessment";
+import Scheduling from "./scheduling";
 
 export {
     Login,
@@ -19,5 +20,6 @@ export {
     ShowEmployes,
     Historic,
     Details,
-    Assessement
+    Assessement,
+    Scheduling
 }

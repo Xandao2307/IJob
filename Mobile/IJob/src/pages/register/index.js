@@ -182,8 +182,7 @@ export default function Register() {
         value={birthdate}
         editable={false}
       />
-    </Pressable
-    >
+    </Pressable>
       <TouchableOpacity
        style={[styles.formButton, {backgroundColor:'#14274E'}]}
        onPress={newUser}
