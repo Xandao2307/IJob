@@ -19,26 +19,27 @@ export default function Register() {
   const [cep, setCep] = useState('')
   const [date, setDate] = useState(new Date())
   const [showPicker, setShowPicker] = useState(false)
+  const [btnCreate, setBtnCreate] = useState('Criar Conta')
   
   function newUser() {
-    if (email ==='' || password === '' || rePassword === '') {
-      alert('Preencha todos os dados')
-    }else if (password !== rePassword) {
-      alert('As senhas devem ser iguais')
-      
-    }else{
-      createUserWithEmailAndPassword(auth,email,password)
-      .then((userCrendencial) =>{
-        alert('O usuário foi criado')
-        radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Login')
-      }).catch((error)=>{
-        const errorMessage = error.message
-        alert(errorMessage)
-        navigation.navigate('Register')
-        return
-      })
+
+    const cpfIsValid = this.cpfField.isValid()
+    if(!cpfIsValid) alert('Insira um CPF Válido')  
+    else if (email ==='' || password === '' || rePassword === '' || !cpfIsValid) alert('Preencha todos os dados')
+    else if (password !== rePassword) alert('As senhas devem ser iguais')
+    else{
+      radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Login')
+      // createUserWithEmailAndPassword(auth,email,password)
+      // .then((userCrendencial) =>{
+      //   alert('O usuário foi criado')
+      //   radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Login')
+      // }).catch((error)=>{
+      //   const errorMessage = error.message
+      //   alert(errorMessage)
+      //   navigation.navigate('Register')
+      //   return
+      // })
     }
-    //()=> radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Home')
   }
 
   const toggleDatepicker = () =>{
@@ -77,7 +78,10 @@ export default function Register() {
       <View>
         <CheckBox
           checked={radioButtonIndex === 0}
-          onPress={() => setRadioButtonIndex(0)}
+          onPress={() => {
+            setRadioButtonIndex(0)
+            setBtnCreate('Criar Conta')
+          }}
           uncheckedColor='#D9D9D9'
           checkedColor='#111111'
           checkedIcon="circle"
@@ -89,7 +93,10 @@ export default function Register() {
         />
         <CheckBox
           checked={radioButtonIndex === 1}
-          onPress={() => setRadioButtonIndex(1)}
+          onPress={() => {
+            setRadioButtonIndex(1)
+            setBtnCreate('Continuar Cadastro')
+          }}
           uncheckedColor='#D9D9D9'
           checkedColor='#111111'
           checkedIcon="circle"
@@ -187,13 +194,15 @@ export default function Register() {
        style={[styles.formButton, {backgroundColor:'#14274E'}]}
        onPress={newUser}
        >
-        <Text style={styles.textButton}>Criar Conta</Text>
+        <Text  style={styles.textButton}>{btnCreate}</Text>
       </TouchableOpacity>
 
       <Pressable
         onPress={()=> navigation.navigate('Login')}
       >
-        <Text style={styles.subButtonText}>Já tenho conta</Text>
+        <Text
+         style={styles.subButtonText}
+         >Já tenho conta </Text>
       </Pressable>
     </View>
   )

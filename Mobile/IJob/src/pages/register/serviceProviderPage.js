@@ -22,9 +22,15 @@ export default function ServiceProviderPage() {
     const navigation = useNavigation()
 
     const toggleCheckbox = (checked, setChecked) => setChecked(!checked)
-
     function newWorker(params) {
-        
+        if(descricao == ''){
+            alert('Insira uma descrição')
+            return
+        }
+        if (!checkedManicure && !checkedLimpeza && !checkedComputador && !checkedCarreto && !checkedMassagista && !checkedMontador && !checkedEncanador && !checkedPedreiro && !checkedEletricista && !checkedPintor) {
+            alert('Marque alguma profissão')
+            return
+        }
         Alert.alert('Registro concluido!', 'Deseja enviar suas imagens de seviços anteriores agora ?', [
             {
               text: 'Enviar agora',
@@ -34,14 +40,9 @@ export default function ServiceProviderPage() {
                 text: 'Depois eu envio',
                 onPress: () => navigation.navigate('Home')
             },
-            {
-              text: 'Cancelar',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },  
           ],
           {
-            cancelable: true,
+            cancelable: false,
           },
           )
 
