@@ -24,7 +24,7 @@ export default function Assessement() {
           </View>
           <View style={{marginTop:35, marginBottom:35}}>
           <AirbnbRating
-            defaultRating={5}
+            defaultRating={3}
             size={56}
             ratingBackgroundColor='#c8c7c8'
             selectedColor='#14274E'

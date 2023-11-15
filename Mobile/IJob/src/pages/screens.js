@@ -9,7 +9,7 @@ import Historic from "./historic";
 import Details from "./details/";
 import Assessement from "./assessment";
 import Scheduling from "./scheduling";
-
+import Conversation from "./chat/conversation";
 export {
     Login,
     Register,
@@ -21,5 +21,6 @@ export {
     Historic,
     Details,
     Assessement,
-    Scheduling
+    Scheduling,
+    Conversation
 }

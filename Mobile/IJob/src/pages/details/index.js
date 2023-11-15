@@ -64,7 +64,7 @@ export default function Details() {
           </View>
         </Card>
 
-        <TouchableOpacity style={[styles.formButton, {backgroundColor:'#14274E', elevation:5 , marginBottom:0}]}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Conversation')} style={[styles.formButton, {backgroundColor:'#14274E', elevation:5 , marginBottom:0}]}>
           <Text style={styles.textButton}>Iniciar Chat</Text>
         </TouchableOpacity>
 

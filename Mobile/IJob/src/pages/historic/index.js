@@ -17,13 +17,14 @@ export default function HistoricPage() {
           name='Ana Maria Carolina'
           profession='Manicure/Pedicure'
           date='30/10/2023'
-          assessmentFn={()=>{navigation.navigate('Assessement')}}
+          assessmentFn={()=> navigation.navigate('Assessement')}
           informationFn={()=>{}}
         />
         <PastWork
           name="Alexandre Souza Nunes"
           date="23/07/2002"
-          assessmentFn={()=>{navigation.navigate('Assessement')}}
+          avatarNameDataFn={()=> navigation.navigate('Conversation')}
+          assessmentFn={()=> navigation.navigate('Assessement')}
         />
       </View>
     </View>

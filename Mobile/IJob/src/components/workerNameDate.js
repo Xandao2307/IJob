@@ -10,8 +10,8 @@ export default function workerNameDate(props) {
         size={75}
         />
         <View style={{flexDirection:'column', marginTop:15, width:175}}>
-            <Text style={[styles.formTitle,{fontSize:17, paddingBottom:4, margin:0,marginLeft:-1, alignSelf:'flex-start'}]}>{props.name}</Text>
-            <Text style={{fontSize:16, color:'#14274E', alignSelf:'flex-start'}}>{props.date}</Text>
+            <Text style={[styles.formTitle,{fontSize:16, paddingBottom:4, margin:0,marginLeft:-1, alignSelf:'flex-start'}]}>{props.name}</Text>
+            <Text style={{fontSize:15, color:'#14274E', alignSelf:'flex-start'}}>{props.date}</Text>
         </View>
     </View>
     )
