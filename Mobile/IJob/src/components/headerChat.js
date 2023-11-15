@@ -5,7 +5,7 @@ import AvatarComponent from './avatarComponent'
 export default function headerChat(props) {
   return (
     <View>
-        <View style={{width:500, height:90, marginBottom:30, backgroundColor:'#D9D9D9', alignItems:'center',flexDirection:'row'}}>
+        <View style={{width:500, height:90, backgroundColor:'#D9D9D9', alignItems:'center',flexDirection:'row'}}>
             <View style={{marginLeft:35}}>
                 <AvatarComponent size={75}/>
             </View>

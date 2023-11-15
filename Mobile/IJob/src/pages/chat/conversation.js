@@ -1,53 +1,127 @@
-import { View, Text, KeyboardAvoidingView } from 'react-native'
-import React from 'react'
-import { styles } from '../../styles/styles'
-import HeaderComponent from '../../components/headerComponent'
-import AvatarComponent from '../../components/avatarComponent'
-import HeaderChat from '../../components/headerChat'
-import { StyleSheet } from 'react-native'
-import { TextInput } from 'react-native'
-import { SafeAreaView } from 'react-native'
-import { Icon } from '@rneui/base'
-import { Platform } from 'react-native'
+// ChatScreen.js
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { MensageUser, MensageWorker } from "../../components/mensage";
+import HeaderComponent from "../../components/headerComponent";
+import HeaderChat from "../../components/headerChat";
 
+export function Conversation() {
+  const [messages, setMessages] = useState([]);
+  const [inputText, setInputText] = useState('');
 
-export default function Conversation() {
-  return (
-    <View style={{backgroundColor:"#F1F6F9", flex:1,}}> 
-        <HeaderComponent title="Chat com prestador"/>
-        <View style={[{flex:1, backgroundColor:'#F1F6F9',height:600}]}> 
-            <HeaderChat name='Alexandre Souza Nunes' />
-            <MensageUser text='Olá boa tarde'/>
-            <MensageWorker text='Olá como posso ajudar ?'/>
+  useEffect(() => {
+    // Inicialize as mensagens (exemplo)
+    setMessages([
+      { id: '1', text: 'Olá!', sender: 'user' },
+      { id: '2', text: 'Oi, como posso ajudar?', sender: 'bot' },
+    ]);
+  }, []);
 
-        </View>
-        <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
-        >
-        <View style={{ alignContent:'center', backgroundColor:'#F1F6F9', flexDirection:'row', padding:8}}>
-        <TextInput
-          style={{      
-            height: 40,
-            width:300,
-            borderColor: 'gray',
-            borderWidth: 1,
-            marginTop:30,
-            marginRight:18,
-            borderRadius: 8,
-            paddingHorizontal: 10,
-            backgroundColor: '#fff',
-            elevation:5
-        }}
-          placeholder="Digite algo..."
-        />
-        <Icon name='send' style={{ marginTop:30}}
-        size={48}
-        color={'#394867'}
-        />
-        </View>
-        </KeyboardAvoidingView>
-    </View>
-  )
+  const renderMessage = ({ item }) => {
+    
+    if(item.sender === 'user')
+      return(
+      <MensageUser text={item.text} />
+    )
+    else
+    return(
+      <MensageWorker text={item.text} />
+    )
 }
+
+  const handleSend = () => {
+    if (inputText.trim() === '') return
+
+    const newMessage = { id: messages.length + 1, text: inputText, sender: 'user' }
+    setMessages([...messages, newMessage])
+    setInputText('')
+  };
+
+  return (
+    <View style={stylesConversation.container}>
+      <HeaderComponent
+        title='Conversa'
+      />
+      <HeaderChat
+        name='Alexandre Souza Nunes'
+      />
+      <FlatList
+        data={messages}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderMessage}
+        contentContainerStyle={stylesConversation.messagesContainer}
+      />
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={stylesConversation.inputContainer}
+      >
+        <TextInput
+          style={stylesConversation.input}
+          placeholder="Digite sua mensagem..."
+          value={inputText}
+          onChangeText={(text) => setInputText(text)}
+        />
+        <TouchableOpacity style={stylesConversation.sendButton} onPress={handleSend}>
+          <Ionicons name="send" size={28} color="#394867" />
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </View>
+  );
+};
+
+const stylesConversation = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor:'#F1F6F9'
+  },
+  messagesContainer: {
+    padding: 10,
+  },
+  messageContainer: {
+    backgroundColor: '#F1F6F9',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    maxWidth: '80%',
+    alignSelf: 'flex-start',
+  },
+  messageText: {
+    fontSize: 16,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor:'#F1F6F9'
+  },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'gray',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 10,
+    marginRight: 10,
+    elevation:5
+  },
+  sendButton: {
+    backgroundColor: '#F1F6F9',
+    borderRadius: 20,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default Conversation;
