@@ -1,4 +1,5 @@
 import { CLIENT_ID, URL_API } from '../config/app.config'
+import doFetch from './fetchService'
 
 
 function uploadImage(files) {
@@ -19,20 +20,6 @@ function uploadImage(files) {
         })
         .catch(console.error)
     }
-  }
-
-function doFetch(url, options){
-    const promiseCallback = (resolve, reject) => {
-      const getFetchJson = (response) => {
-        if(!response.ok) return reject(response)
-        return response.json().then(resolve)
-      }
-
-      fetch(url, options)
-        .then(getFetchJson)
-        .catch(reject)
-    }
-    return new Promise(promiseCallback)
   }
 
 export default {
