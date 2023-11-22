@@ -1,4 +1,4 @@
-function doFetch(url, options){
+export function doFetch(url, options){
     const promiseCallback = (resolve, reject) => {
       const getFetchJson = (response) => {
         if(!response.ok) return reject(response)
@@ -11,5 +11,3 @@ function doFetch(url, options){
     }
     return new Promise(promiseCallback)
   }
-
-  export default doFetch

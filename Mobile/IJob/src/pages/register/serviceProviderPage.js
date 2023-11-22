@@ -4,9 +4,12 @@ import { styles } from '../../styles/styles'
 import { CheckBox } from '@rneui/themed';
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import {uploadImage} from '../../services/uploadImagesService';
 
 
 export default function ServiceProviderPage() {
+    const [image, setImage] = useState(null);
 
     const [checkedManicure, setCheckedManicure] = useState(false)
     const [checkedLimpeza, setCheckedLimpeza] = useState(false)
@@ -22,6 +25,27 @@ export default function ServiceProviderPage() {
     const navigation = useNavigation()
 
     const toggleCheckbox = (checked, setChecked) => setChecked(!checked)
+    
+    const pickImage = async () => {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: false,
+                aspect: [4, 4],
+                quality: 1,
+                base64:true,
+                allowsMultipleSelection:true,
+                selectionLimit:5
+            });
+           const urls = await uploadImage(result.assets)     
+           console.log(urls);
+        } catch (error) {
+            console.error(error)
+        }
+       
+    };
+
+
     function newWorker(params) {
         if(descricao == ''){
             alert('Insira uma descrição')
@@ -34,7 +58,7 @@ export default function ServiceProviderPage() {
         Alert.alert('Registro concluido!', 'Deseja enviar suas imagens de seviços anteriores agora ?', [
             {
               text: 'Enviar agora',
-              onPress: () => navigation.navigate('Home')
+              onPress: pickImage
             },
             {
                 text: 'Depois eu envio',

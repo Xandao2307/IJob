@@ -1,7 +1,9 @@
-const CLIENT_ID = '87987cc96ff0a0e'
-const URL_API = 'https://api.imgur.com/3/image'
+import { CLIENT_ID, URL_API} from "@env";
+
+const Client_Id = CLIENT_ID
+const Url_Api = URL_API
 
 export {
-    CLIENT_ID,
-    URL_API
+    Client_Id,
+    Url_Api
 }

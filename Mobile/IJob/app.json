@@ -1,5 +1,6 @@
 {
   "expo": {
+    
     "name": "IJob",
     "slug": "IJob",
     "version": "1.0.0",
@@ -25,6 +26,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
+
   }
 }

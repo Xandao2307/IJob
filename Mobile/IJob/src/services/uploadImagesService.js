@@ -1,28 +1,25 @@
-import { CLIENT_ID, URL_API } from '../config/app.config'
-import doFetch from './fetchService'
+import { Client_Id, Url_Api } from '../config/app.config'
+import {doFetch} from './fetchService'
 
+export async function uploadImage(files) {
+  const data = new FormData()
+  let urlsImages = []
 
-function uploadImage(files) {
-    const data = new FormData()
-    let urlsImages = []
-    
-    for (const file in files) {
-        data.append('image', file)
-        doFetch(URL_API, {
-          method: 'POST',
-          body: data,
-          headers: {
-            'Authorization': `Client-ID ${CLIENT_ID}`,
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i]
+
+    data.append('image', file.base64)
+    await doFetch(Url_Api, {
+      method: 'POST',
+        body: data,
+        headers: {
+          'Authorization': `Client-ID ${Client_Id}`,
           }
         })
-        .then( (result) => {
-            console.log(result)
-        })
-        .catch(console.error)
-    }
+      .then( (result) => {
+        urlsImages.push(result.data.link)
+      })
+      .catch(console.error)
   }
-
-export default {
-    uploadImage,
-    doFetch
-    }
+  return urlsImages
+}
