@@ -1,4 +1,4 @@
-import { Client_Id, Url_Api } from '../config/app.config'
+import { Client_Id_Imgur, Url_Api_Imgur } from '../config/app.config'
 import {doFetch} from './fetchService'
 
 export async function uploadImage(files) {
@@ -7,15 +7,16 @@ export async function uploadImage(files) {
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
-
+    console.log("Mandando a imagem...");
+    
     data.append('image', file.base64)
-    await doFetch(Url_Api, {
+    await doFetch(Url_Api_Imgur, {
       method: 'POST',
-        body: data,
-        headers: {
-          'Authorization': `Client-ID ${Client_Id}`,
-          }
-        })
+      body: data,
+      headers: {
+        'Authorization': `Client-ID ${Client_Id_Imgur}`,
+        }
+      })
       .then( (result) => {
         urlsImages.push(result.data.link)
       })

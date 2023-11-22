@@ -26,7 +26,7 @@ export default function ServiceProviderPage() {
 
     const toggleCheckbox = (checked, setChecked) => setChecked(!checked)
     
-    const pickImage = async () => {
+    const pickImageAndRegister = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -37,8 +37,10 @@ export default function ServiceProviderPage() {
                 allowsMultipleSelection:true,
                 selectionLimit:5
             });
-           const urls = await uploadImage(result.assets)     
-           console.log(urls);
+            const urls = await uploadImage(result.assets)     
+            console.log(urls);
+            navigation.navigate('Home')
+
         } catch (error) {
             console.error(error)
         }
@@ -58,7 +60,7 @@ export default function ServiceProviderPage() {
         Alert.alert('Registro concluido!', 'Deseja enviar suas imagens de seviços anteriores agora ?', [
             {
               text: 'Enviar agora',
-              onPress: pickImage
+              onPress: pickImageAndRegister
             },
             {
                 text: 'Depois eu envio',
