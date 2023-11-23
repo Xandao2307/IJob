@@ -1,4 +1,5 @@
 export function doFetch(url, options) {
+    console.log(url);
   const promiseCallback = (resolve, reject) => {
       const getFetchJson = (response) => {
           if (!response.ok) {
@@ -9,7 +10,7 @@ export function doFetch(url, options) {
       }
 
       fetch(url, options)
-          .then(getFetchJson)
+          .then((response)=>{ getFetchJson(response)})
           .catch((error) => {
               console.error('Erro na solicitação da API:', error);
               reject(error);
