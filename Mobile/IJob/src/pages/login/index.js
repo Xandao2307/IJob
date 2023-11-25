@@ -2,8 +2,6 @@ import { View, Text, TextInput, Image , Pressable, TouchableOpacity} from 'react
 import React,{useState} from 'react'
 import { styles } from '../../styles/styles'
 import { useNavigation } from "@react-navigation/native";
-import { auth } from '../../config/firebase.config';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { userLoginFactory } from "../../models/user";
 import { loginService } from "../../services/loginService";
 
@@ -15,7 +13,6 @@ export default function Login() {
   function userLogin() {
     console.log('Iniciando login...');
     let user = userLoginFactory(email, password);
-    
     loginService(user)
         .then((accessToken) => {
             console.log('Bem-vindo');

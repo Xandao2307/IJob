@@ -3,7 +3,8 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import HeaderComponent from '../../components/headerComponent';
 import CardComponent from '../../components/cardComponent';
-
+import { useEffect } from 'react';
+import { findAll } from "../../services/findAllIndependent";
 export default function ShowEmployes() {
   const navigation = useNavigation();
 
@@ -18,6 +19,22 @@ export default function ShowEmployes() {
     },
     // Adicione mais objetos conforme necessário
   ]);
+  useEffect(() => {
+
+    findAll()
+      .then((independets) => {
+        setEmployesData(independets)
+      })
+      .catch((error) => {
+        console.error('Erro durante o login:', error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+        console.log(errorCode);
+      })
+    return () => {
+    }
+  }, [])
 
   return (
     <View style={stylesCard.container}>
