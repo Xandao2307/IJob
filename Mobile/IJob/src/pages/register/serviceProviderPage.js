@@ -6,11 +6,17 @@ import { useNavigation } from "@react-navigation/native";
 import { Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {uploadImage} from '../../services/uploadImagesService';
+import { saveImages } from '../../services/saveImagesService';
+import { createUser } from '../../services/createUserService';
+import UserInstance from '../../constants/userInstance';
 
 
-export default function ServiceProviderPage() {
+export default function ServiceProviderPage({ route, navigation }) {
+
+    const { data } = route.params
+
     const [image, setImage] = useState(null);
-
+    
     const [checkedManicure, setCheckedManicure] = useState(false)
     const [checkedLimpeza, setCheckedLimpeza] = useState(false)
     const [checkedComputador, setCheckedComputador] = useState(false)
@@ -22,11 +28,27 @@ export default function ServiceProviderPage() {
     const [checkedEletricista, setCheckedEletricista] = useState(false)
     const [checkedPintor, setCheckedPintor] = useState(false)
     const [descricao, setDescricao] = useState('')
-    const navigation = useNavigation()
 
     const toggleCheckbox = (checked, setChecked) => setChecked(!checked)
     
-    const pickImageAndRegister = async () => {
+    const getServices = ()=>{
+        let services = []
+
+        if(checkedManicure) services.push({ name: "Manicure", codigo: '1' })
+        if(checkedLimpeza) services.push({ name: "Serviço de Limpeza", codigo: '2' })
+        if(checkedComputador) services.push({ name: "Manutenção de Computadores", codigo: '3' })
+        if(checkedCarreto) services.push({ name: "Carretos", codigo: '4' })
+        if(checkedMassagista) services.push({ name: "Massagista", codigo: '5' })
+        if(checkedMontador) services.push({ name: "Montador de Móveis", codigo: '6' })
+        if(checkedEncanador) services.push({ name: "Encanador", codigo: '7' })
+        if(checkedPedreiro) services.push({ name: "Pedreiro", codigo: '8' })
+        if(checkedEletricista) services.push({ name: "Eletricista", codigo: '9' })
+        if(checkedPintor) services.push({ name: "Pintor", codigo: '10' })
+
+        return services
+    }
+
+    const pickImageAndSave = async (id) => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -37,18 +59,15 @@ export default function ServiceProviderPage() {
                 allowsMultipleSelection:true,
                 selectionLimit:5
             });
-            const urls = await uploadImage(result.assets)     
-            console.log(urls);
-            navigation.navigate('Home')
-
+            const urls = await uploadImage(result.assets)  
+            await saveImages(urls, id) 
         } catch (error) {
             console.error(error)
         }
        
     };
 
-
-    function newWorker(params) {
+    function newWorker() {
         if(descricao == ''){
             alert('Insira uma descrição')
             return
@@ -60,7 +79,16 @@ export default function ServiceProviderPage() {
         Alert.alert('Registro concluido!', 'Deseja enviar suas imagens de seviços anteriores agora ?', [
             {
               text: 'Enviar agora',
-              onPress: pickImageAndRegister
+              onPress: async () => {
+                data.description = descricao
+                data.servicos = getServices()
+
+                const newUser = await createUser(data)
+                console.log(newUser)
+                await pickImageAndSave(newUser.id)
+                _ = new UserInstance(newUser);
+                navigation.navigate('Home')
+            }
             },
             {
                 text: 'Depois eu envio',
@@ -147,7 +175,7 @@ export default function ServiceProviderPage() {
                                 uncheckedIcon="square"
                                 checkedColor='#111111'
                                 uncheckedColor='#D9D9D9'
-                                title="Montador de Imóveis"
+                                title="Montador de Móveis"
                                 textStyle={{fontSize:17}}
                                 size={20}
                             />

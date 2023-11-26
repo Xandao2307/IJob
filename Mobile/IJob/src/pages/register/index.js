@@ -23,27 +23,31 @@ export default function Register() {
   const [btnCreate, setBtnCreate] = useState('Criar Conta')
   
   function newUser() {
-    if(radioButtonIndex==1)  navigation.navigate('ServiceProvider') 
+    let user = userFactory(name,cpf, new Date(date).getTime(),email,password, radioButtonIndex == 1 ? true: false);
+
+    if(radioButtonIndex == 1) { 
+      navigation.navigate('ServiceProvider', { data:user })
+      return
+    } 
     
     const cpfIsValid = this.cpfField.isValid()
     if(!cpfIsValid) alert('Insira um CPF Válido')  
     else if ( !email  || !password || !rePassword) alert('Preencha todos os dados')
     else if (password !== rePassword) alert('As senhas devem ser iguais')
     else{
-      let user = userFactory(name,cpf, new Date(date).getTime(),email,password,false);
       createUser(user)
-      .then((user) => {
-        console.log(user);
-        new UserInstance(user)
-        if(user) navigation.navigate('Home')
+      .then((userResponse) => {
+        console.log(userResponse)
+        new UserInstance(userResponse)
+        if(userResponse) navigation.navigate('Home')
         else Alert.alert("Error","Error durante o registro, tente novamente")
       })
       .catch((error) => {
-        console.error('Erro durante o login:', error);
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
-        console.log(errorCode);
+        console.error('Erro durante o login:', error)
+        const errorCode = error.code
+        const errorMessage = error.message
+        alert(errorMessage)
+        console.log(errorCode)
       });
     }
   }
