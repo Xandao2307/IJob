@@ -38,7 +38,7 @@ export default function Register() {
       createUser(user)
       .then((userResponse) => {
         console.log(userResponse)
-        new UserInstance(userResponse)
+        _= new UserInstance(userResponse)
         if(userResponse) navigation.navigate('Home')
         else Alert.alert("Error","Error durante o registro, tente novamente")
       })
