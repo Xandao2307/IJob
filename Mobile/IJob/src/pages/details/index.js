@@ -7,18 +7,26 @@ import AvatarComponent from '../../components/avatarComponent'
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
+import { useEffect } from 'react';
+import { findUser } from '../../services/findUser';
 
 export default function Details({ route, navigation }) {
   const { id } = route.params
-  const [user, setUser] = useState({name:"Alexandre Souza", description:"Programador a 2 anos",services:"programdor"})
+  const [user, setUser] = useState({})
+  const [imageList, setImageList] = useState([]);
 
-  const [imageList, setImageList] = useState([
-    'https://www.iped.com.br/_upload/content/2014/11/14/boa-manicure-pedicure.jpg',
-    'https://www.iped.com.br/_upload/content/2014/11/14/boa-manicure-pedicure.jpg',
-    'https://www.iped.com.br/_upload/content/2014/11/14/boa-manicure-pedicure.jpg',
-
-    // Adicione mais URLs de imagens conforme necessário
-  ]);
+  useEffect(() => {
+    findUser(id)
+    .then((result)=>{
+      setUser(result)
+      let imgs = result.imagens.map((img) => img.url)
+      setImageList(imgs)
+    })
+    .catch((error)=>{
+      console.error(error)
+    })
+    return () => {};
+  }, [])
 
   return (
    <View style={{backgroundColor:'#F1F6F9'}}> 
@@ -33,7 +41,7 @@ export default function Details({ route, navigation }) {
             <View style={{flexDirection:'column', paddingTop:15}}>
               <Text style={[styles.formTitle,{fontSize:18, paddingBottom:12, margin:0,marginLeft:0, alignSelf:"flex-start"}]}>{user.name}</Text>
               <Text style={[styles.formTitle,{fontSize:18, paddingBottom:0, margin:0}]}>Serviços disponíveis:</Text>
-              <Text style={{fontSize:16, color:'#14274E'}}>{user.services}</Text>
+              <Text style={{fontSize:16, color:'#14274E'}}>{(user.servicos.map((x) => x.name)).join("; ")}</Text>
               <TouchableOpacity 
                 style={[styles.formButton,{width:138, elevation:5 ,height:30, padding:0, paddingTop:3, alignSelf:'flex-end'}]}
               >

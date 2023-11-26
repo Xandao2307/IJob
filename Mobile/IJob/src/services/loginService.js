@@ -5,7 +5,7 @@ export async function loginService(user) {
     console.log('Enviando solicitação de login...'); 
     try {
         const response = await axios.post(Url_Api_IP+'auth',user)
-        return response.data.token
+        return response.data
     } catch (error) {
         console.error(error)
     }

@@ -4,6 +4,7 @@ import { styles } from '../../styles/styles'
 import { useNavigation } from "@react-navigation/native";
 import { userLoginFactory } from "../../models/user";
 import { loginService } from "../../services/loginService";
+import UserInstance from '../../constants/userInstance';
 
 export default function Login() {
   const navigation = useNavigation()
@@ -14,10 +15,13 @@ export default function Login() {
     console.log('Iniciando login...');
     let user = userLoginFactory(email, password);
     loginService(user)
-      .then((accessToken) => {
+      .then((result) => {
         console.log('Bem-vindo');
-        const token = accessToken;
-        if(token) navigation.navigate('Home')
+        const token = result.token;
+        if(token){ 
+          _ = new UserInstance(result)
+          navigation.navigate('Home')
+        }
         else Alert.alert("Error","Senha ou email errados")
       })
       .catch((error) => {
