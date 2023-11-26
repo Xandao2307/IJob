@@ -1,44 +1,61 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, Image, ScrollView } from 'react-native'
+import React, { useState } from 'react'
 import { styles } from '../../styles/styles'
 import HeaderComponent from "../../components/headerComponent";
 import { AirbnbRating,  Button, Card, Rating } from '@rneui/base';
 import AvatarComponent from '../../components/avatarComponent'
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Alert } from 'react-native';
 
-export default function Details() {
-  const navigation = useNavigation()
+export default function Details({ route, navigation }) {
+  const { id } = route.params
+  const [user, setUser] = useState({name:"Alexandre Souza", description:"Programador a 2 anos",services:"programdor"})
+
+  const [imageList, setImageList] = useState([
+    'https://www.iped.com.br/_upload/content/2014/11/14/boa-manicure-pedicure.jpg',
+    'https://www.iped.com.br/_upload/content/2014/11/14/boa-manicure-pedicure.jpg',
+    'https://www.iped.com.br/_upload/content/2014/11/14/boa-manicure-pedicure.jpg',
+
+    // Adicione mais URLs de imagens conforme necessário
+  ]);
+
   return (
    <View style={{backgroundColor:'#F1F6F9'}}> 
     <HeaderComponent
       title='Detalhes do Prestador'
     />
       <View style = {[styles.container, {flex:0, marginTop:30, backgroundColor:'#F1F6F9'}]}>
-      
         <View style = {{flexDirection: 'row'}}>
           <AvatarComponent
             size={140}
           />
             <View style={{flexDirection:'column', paddingTop:15}}>
-              <Text style={[styles.formTitle,{fontSize:18, paddingBottom:12, margin:0,marginLeft:-15}]}>Ana Maria Carolina</Text>
+              <Text style={[styles.formTitle,{fontSize:18, paddingBottom:12, margin:0,marginLeft:0, alignSelf:"flex-start"}]}>{user.name}</Text>
               <Text style={[styles.formTitle,{fontSize:18, paddingBottom:0, margin:0}]}>Serviços disponíveis:</Text>
-              <Text style={{fontSize:16, color:'#14274E'}}>Manicure/Pedicure</Text>
+              <Text style={{fontSize:16, color:'#14274E'}}>{user.services}</Text>
               <TouchableOpacity 
-                style={[styles.formButton,{width:125, elevation:5 ,height:30, padding:0, paddingTop:3, alignSelf:'flex-end'}]}
+                style={[styles.formButton,{width:138, elevation:5 ,height:30, padding:0, paddingTop:3, alignSelf:'flex-end'}]}
               >
-                <Text style={{color:'white', fontSize:15,textAlign:'center', fontWeight:'bold'}}>Mais Informções</Text>
+                <Text style={{color:'white', fontSize:15,textAlign:'center', fontWeight:'bold'}} onPress={()=> Alert.alert("Descrição",user.description)} >Mais Informações</Text>
               </TouchableOpacity>
             </View>
         </View>
-        <Card containerStyle={{width:320, elevation:5 , backgroundColor:'white', borderRadius:10}}>
-          <Card.Title style={{alignSelf:'flex-start',fontSize:18, fontWeight:'bold', color:'#14274E'}}>Vitrine do Prestador:</Card.Title>
-          <Card.Image
-            style={{ padding: 0 }}
-            source={{
-              uri:
-                'https://www.iped.com.br/_upload/content/2014/11/14/boa-manicure-pedicure.jpg',
-            }}
+
+        <Card containerStyle={{ width: 320, elevation: 5, backgroundColor: 'white', borderRadius: 10 }}>
+          <Card.Title style={{ alignSelf: 'flex-start', fontSize: 18, fontWeight: 'bold', color: '#14274E' }}>
+            Vitrine do Prestador:
+          </Card.Title>
+          <FlatList
+            data={imageList}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal={true}
+            renderItem={({ item }) => (
+              <Image
+                style={{ height: 150, width: 160, borderRadius: 8, marginVertical: 5, marginRight:10}}
+                source={{ uri: item }}
+              />
+            )}
           />
         </Card>
         

@@ -5,8 +5,9 @@ import { CheckBox } from '@rneui/themed';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { useNavigation } from "@react-navigation/native";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import auth from '../../config/firebase.config'
+import { createUser } from '../../services/createUserService';
+import { userFactory } from '../../models/user';
+import  UserInstance  from "../../constants/userInstance";
 
 export default function Register() {
   const [radioButtonIndex, setRadioButtonIndex] = useState(0);
@@ -22,23 +23,28 @@ export default function Register() {
   const [btnCreate, setBtnCreate] = useState('Criar Conta')
   
   function newUser() {
-
+    if(radioButtonIndex==1)  navigation.navigate('ServiceProvider') 
+    
     const cpfIsValid = this.cpfField.isValid()
     if(!cpfIsValid) alert('Insira um CPF Válido')  
-    else if (email ==='' || password === '' || rePassword === '' || !cpfIsValid) alert('Preencha todos os dados')
+    else if ( !email  || !password || !rePassword) alert('Preencha todos os dados')
     else if (password !== rePassword) alert('As senhas devem ser iguais')
     else{
-      radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Login')
-      // createUserWithEmailAndPassword(auth,email,password)
-      // .then((userCrendencial) =>{
-      //   alert('O usuário foi criado')
-      //   radioButtonIndex==1 ? navigation.navigate('ServiceProvider') : navigation.navigate('Login')
-      // }).catch((error)=>{
-      //   const errorMessage = error.message
-      //   alert(errorMessage)
-      //   navigation.navigate('Register')
-      //   return
-      // })
+      let user = userFactory(name,cpf, new Date(date).getTime(),email,password,false);
+      createUser(user)
+      .then((user) => {
+        console.log(user);
+        new UserInstance(user)
+        if(user) navigation.navigate('Home')
+        else Alert.alert("Error","Error durante o registro, tente novamente")
+      })
+      .catch((error) => {
+        console.error('Erro durante o login:', error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+        console.log(errorCode);
+      });
     }
   }
 

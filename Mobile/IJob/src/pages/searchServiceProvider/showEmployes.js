@@ -3,21 +3,31 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import HeaderComponent from '../../components/headerComponent';
 import CardComponent from '../../components/cardComponent';
-
+import { useEffect } from 'react';
+import { findAll } from "../../services/findAllIndependent";
 export default function ShowEmployes() {
   const navigation = useNavigation();
 
   // Usando useState para armazenar a lista de profissionais
   const [employesData, setEmployesData] = useState([
-    {
-      id: '1',
-      name: 'Ana Maria Carolina',
-      profession: 'Manicure/Pedicure',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula hendrerit lectus eleifend iaculis. Nam porta, odio eget rutrum porta, nisl leo rutrum nulla, at fringilla velit tellus vel sem. Maecenas fermentum purus et dolor interdum, nec egestas leo suscipit.',
-    },
     // Adicione mais objetos conforme necessário
   ]);
+  useEffect(() => {
+
+    findAll()
+      .then((independets) => {
+        setEmployesData(independets)
+      })
+      .catch((error) => {
+        console.error('Erro durante o login:', error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+        console.log(errorCode);
+      })
+    return () => {
+    }
+  }, [])
 
   return (
     <View style={stylesCard.container}>
@@ -31,6 +41,7 @@ export default function ShowEmployes() {
               name={item.name}
               profession={item.profession}
               description={item.description}
+              id={item.id}
             />
           )}
         />
