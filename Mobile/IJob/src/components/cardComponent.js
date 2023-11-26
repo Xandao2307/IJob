@@ -21,7 +21,7 @@ export default function cardComponent(props){
             buttonStyle={[styles.button, {backgroundColor:'#14274E',}]}
             titleStyle={{fontSize:24}}
             title="Detalhes"
-            onPress={() => navigation.navigate("Details")}
+            onPress={() => navigation.navigate("Details",{id: props.id})}
           />
       </Card>
     </View>

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Image , Pressable, TouchableOpacity} from 'react-native'
+import { View, Text, TextInput, Image , Pressable, TouchableOpacity, Alert} from 'react-native'
 import React,{useState} from 'react'
 import { styles } from '../../styles/styles'
 import { useNavigation } from "@react-navigation/native";
@@ -17,7 +17,8 @@ export default function Login() {
       .then((accessToken) => {
         console.log('Bem-vindo');
         const token = accessToken;
-        navigation.navigate('Home')
+        if(token) navigation.navigate('Home')
+        else Alert.alert("Error","Senha ou email errados")
       })
       .catch((error) => {
         console.error('Erro durante o login:', error);

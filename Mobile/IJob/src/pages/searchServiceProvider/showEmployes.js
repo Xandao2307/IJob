@@ -10,13 +10,6 @@ export default function ShowEmployes() {
 
   // Usando useState para armazenar a lista de profissionais
   const [employesData, setEmployesData] = useState([
-    {
-      id: '1',
-      name: 'Ana Maria Carolina',
-      profession: 'Manicure/Pedicure',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula hendrerit lectus eleifend iaculis. Nam porta, odio eget rutrum porta, nisl leo rutrum nulla, at fringilla velit tellus vel sem. Maecenas fermentum purus et dolor interdum, nec egestas leo suscipit.',
-    },
     // Adicione mais objetos conforme necessário
   ]);
   useEffect(() => {
@@ -48,6 +41,7 @@ export default function ShowEmployes() {
               name={item.name}
               profession={item.profession}
               description={item.description}
+              id={item.id}
             />
           )}
         />

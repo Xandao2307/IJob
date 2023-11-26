@@ -34,10 +34,9 @@ export default function Register() {
       createUser(user)
       .then((user) => {
         console.log(user);
-        const userInstance = new UserInstance(user)
-        console.log(userInstance);
-        console.log('Usuário criado');
-        navigation.navigate('Home')
+        new UserInstance(user)
+        if(user) navigation.navigate('Home')
+        else Alert.alert("Error","Error durante o registro, tente novamente")
       })
       .catch((error) => {
         console.error('Erro durante o login:', error);
