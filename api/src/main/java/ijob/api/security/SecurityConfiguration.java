@@ -17,8 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfiguration {
 
-	//@Autowired
-//	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	 @Autowired
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	@Autowired
 	private UserDetailsService jwtUserDetailsService;
@@ -42,29 +42,24 @@ public class SecurityConfiguration {
 	@Bean
 	public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder,
 			UserDetailsService userDetailService) throws Exception {
-		return http
-				.getSharedObject(AuthenticationManagerBuilder.class)
-				.userDetailsService(userDetailService)
-				.passwordEncoder(bCryptPasswordEncoder)
-				.and()
-				.build();
+		return http.getSharedObject(AuthenticationManagerBuilder.class).userDetailsService(userDetailService)
+				.passwordEncoder(bCryptPasswordEncoder).and().build();
 	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
-			.csrf()
-			.disable()
-			.authorizeHttpRequests(authorize -> authorize
-					//.requestMatchers(HttpMethod.POST, "/users").permitAll()
-					.requestMatchers("/chat/*").authenticated()
-					.anyRequest().permitAll())
-		
-			.exceptionHandling()
-			//.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-			.and()
-			//.addFilterBefore(jwtRequestFilter, null)
-			.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		.csrf()
+		.disable()
+		.authorizeHttpRequests(authorize -> authorize
+				//.requestMatchers(HttpMethod.POST, "/users").permitAll()
+				//.requestMatchers("/chat/*").authenticated()
+				.anyRequest().permitAll())
+				.exceptionHandling()
+				.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+				.and()
+				.addFilterBefore(jwtRequestFilter,  UsernamePasswordAuthenticationFilter.class)
+				.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		return http.build();
 	}

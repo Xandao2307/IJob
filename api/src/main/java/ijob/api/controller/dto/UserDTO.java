@@ -1,6 +1,5 @@
 package ijob.api.controller.dto;
 
-//import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,12 +14,25 @@ public class UserDTO {
 	private String Password;
 	private Boolean Independent;
 	private String Description;
-	private List<String> Imagens;
-	
-	
+	private List<ImageDTO> Imagens;
+	private List<ServicoDTO> Servicos;
+
+	public UserDTO() {
+	}
+
+	public UserDTO(UserModel u) {
+		setId(u.getId());
+		setName(u.getName());
+		setUsername(u.getUsername());
+		setCPF(u.getCPF());
+		setBirthdate(u.getBirthdate());
+		setIndependent(u.getIndependent());
+		setDescription(u.getDescription());
+	}
+
 	public static UserDTO converter(UserModel u) {
-		UserDTO user =  new UserDTO();
-		
+		UserDTO user = new UserDTO();
+
 		user.setId(u.getId());
 		user.setName(u.getName());
 		user.setUsername(u.getUsername());
@@ -28,10 +40,9 @@ public class UserDTO {
 		user.setBirthdate(u.getBirthdate());
 		user.setIndependent(u.getIndependent());
 		user.setDescription(u.getDescription());
-		
+
 		return user;
 	}
-	
 
 	public Long getId() {
 		return Id;
@@ -97,11 +108,19 @@ public class UserDTO {
 		Description = description;
 	}
 
-	public List<String> getImagens() {
+	public List<ImageDTO> getImagens() {
 		return Imagens;
 	}
 
-	public void setImagens(List<String> imagens) {
-		Imagens = imagens;
+	public void setImagens(List<ImageDTO> list) {
+		Imagens = list;
+	}
+	
+	public List<ServicoDTO> getServicos() {
+		return Servicos;
+	}
+
+	public void setServicos(List<ServicoDTO> list) {
+		Servicos = list;
 	}
 }

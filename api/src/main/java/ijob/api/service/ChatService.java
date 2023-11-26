@@ -1,10 +1,6 @@
 package ijob.api.service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import ijob.api.controller.dto.ChatDTO;
 import ijob.api.controller.dto.MessageDTO;
-import ijob.api.controller.dto.UserDTO;
 import ijob.api.model.ChatModel;
 import ijob.api.model.Message;
 import ijob.api.repository.ChatRepository;

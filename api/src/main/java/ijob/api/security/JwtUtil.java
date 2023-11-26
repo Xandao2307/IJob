@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -22,12 +23,15 @@ public class JwtUtil implements Serializable {
 	private static final long serialVersionUID = -2550185165626007488L;
 
 	public static final long JWT_TOKEN_VALIDITY = 5*60*60;
+	
+	@Autowired
+	private JwtUserDetailsService jwtUserDetailsService;
 
 	//@Value("${jwt_secret}")
 	private SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
 	public String getUsernameFromToken(String token) {
-		return getClaimFromToken(token, Claims::getSubject);
+		return getAllClaimsFromToken(token).getSubject();
 	}
 
 	public Date getIssuedAtDateFromToken(String token) {
@@ -44,7 +48,10 @@ public class JwtUtil implements Serializable {
 	}
 
 	private Claims getAllClaimsFromToken(String token) {
-		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		return Jwts
+				.parserBuilder()
+				.setSigningKey(secret).build()
+				.parseClaimsJws(token).getBody();
 	}
 
 	private Boolean isTokenExpired(String token) {
@@ -57,19 +64,21 @@ public class JwtUtil implements Serializable {
 		return false;
 	}
 
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(String userName) {
 		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims, userDetails.getUsername());
+		return doGenerateToken(claims, userName);
 	}
 
-	private String doGenerateToken(Map<String, Object> claims, String subject) {
 
+	private String doGenerateToken(Map<String, Object> claims, String subject) {
+		
 		return Jwts.builder()
 				.setClaims(claims)
 				.setSubject(subject)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY*1000))
-				.signWith(SignatureAlgorithm.HS512, secret).compact();
+				.signWith(secret,SignatureAlgorithm.HS512)
+				.compact();
 	}
 
 	public Boolean canTokenBeRefreshed(String token) {

@@ -14,13 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import ijob.api.controller.dto.SimpleUserDTO;
 import ijob.api.controller.dto.UserDTO;
 import ijob.api.model.UserModel;
 import ijob.api.repository.UserRepository;
+import ijob.api.service.UserService;
 import jakarta.transaction.Transactional;
 
 @RestController
@@ -28,40 +30,60 @@ import jakarta.transaction.Transactional;
 public class UserController {
 
 	private final UserRepository userRepository;
-	
+	private final UserService userService;
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserController(UserRepository userRepository) {
+	public UserController(UserRepository userRepository, UserService userService) {
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 
 	@GetMapping
 	public List<UserDTO> getAll() {
 		var users = userRepository.findAll();
 
-//		for (ijob.api.model.User u : users) {
-//			return (List<UserDTO>) UserDTO.converter(u);
-//		}
+		return users.stream().map(UserDTO::converter).collect(Collectors.toList());
+	}
+
+	
+	@GetMapping("/independents")
+	public List<UserDTO> getIndependents() {
+		var users = userRepository.findIndependent();
+
+		return users.stream().map(UserDTO::converter).collect(Collectors.toList());
+	}
+	
+	@GetMapping("/independents/{code}")
+	public List<UserDTO> getIndependentsByServico(@PathVariable String code) {
+		var users = userRepository.findByServico(code);
 
 		return users.stream().map(UserDTO::converter).collect(Collectors.toList());
 	}
 
 	@GetMapping("/{id}")
-	public Optional<UserDTO> getById(@PathVariable Long id) {
-		Optional<UserModel> user = userRepository.findById(id);
-		return user.map(UserDTO::converter);
+	public UserDTO getById(@PathVariable Long id) {
+
+		UserDTO user = userService.getUserWithServicosAndImages(id);
+		return user;
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public UserModel Create(@RequestBody UserModel user) {
+	public UserModel Create(@RequestBody SimpleUserDTO _user) {
 		try {
+			UserModel user = new UserModel(_user);
+
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			return userRepository.save(user);
-		}
-		catch (Exception e) {
+
+			UserModel userSaved = userRepository.save(user);
+
+			userService.addServicos(_user.getServicos(), userSaved.getId());
+
+			return userSaved;
+		} catch (Exception e) {
 			return null;
 		}
 	}
