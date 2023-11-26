@@ -14,18 +14,18 @@ export default function Login() {
     console.log('Iniciando login...');
     let user = userLoginFactory(email, password);
     loginService(user)
-        .then((accessToken) => {
-            console.log('Bem-vindo');
-            const token = accessToken;
-            navigation.navigate('Home')
-          })
-        .catch((error) => {
-            console.error('Erro durante o login:', error);
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            alert(errorMessage);
-            console.log(errorCode);
-        });
+      .then((accessToken) => {
+        console.log('Bem-vindo');
+        const token = accessToken;
+        navigation.navigate('Home')
+      })
+      .catch((error) => {
+        console.error('Erro durante o login:', error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+        console.log(errorCode);
+      });
 }
 
   return (
