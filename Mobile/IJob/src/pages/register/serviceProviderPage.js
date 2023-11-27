@@ -1,4 +1,4 @@
-import { View, Text ,TextInput, TouchableOpacity, Pressable, ScrollView} from 'react-native'
+import { View, Text ,TextInput, TouchableOpacity, Pressable, ScrollView, ActivityIndicator} from 'react-native'
 import React, {useState} from 'react'
 import { styles } from '../../styles/styles'
 import { CheckBox } from '@rneui/themed';
@@ -16,7 +16,6 @@ export default function ServiceProviderPage({ route, navigation }) {
     const { data } = route.params
 
     const [image, setImage] = useState(null);
-    
     const [checkedManicure, setCheckedManicure] = useState(false)
     const [checkedLimpeza, setCheckedLimpeza] = useState(false)
     const [checkedComputador, setCheckedComputador] = useState(false)
@@ -28,6 +27,7 @@ export default function ServiceProviderPage({ route, navigation }) {
     const [checkedEletricista, setCheckedEletricista] = useState(false)
     const [checkedPintor, setCheckedPintor] = useState(false)
     const [descricao, setDescricao] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const toggleCheckbox = (checked, setChecked) => setChecked(!checked)
     
@@ -80,6 +80,7 @@ export default function ServiceProviderPage({ route, navigation }) {
             {
               text: 'Enviar agora',
               onPress: async () => {
+                setIsLoading(true)
                 data.description = descricao
                 data.servicos = getServices()
 
@@ -88,11 +89,23 @@ export default function ServiceProviderPage({ route, navigation }) {
                 await pickImageAndSave(newUser.id)
                 _ = new UserInstance(newUser);
                 navigation.navigate('Home')
+                setIsLoading(false)
             }
             },
             {
                 text: 'Depois eu envio',
-                onPress: () => navigation.navigate('Home')
+                
+                onPress: async () => {
+                    setIsLoading(true)
+                    const newUser = await createUser(data)
+                    data.description = descricao
+                    data.servicos = getServices()
+                    
+                    console.log(newUser)
+                    _ = new UserInstance(newUser);
+                    navigation.navigate('Home')
+                    setIsLoading(false)   
+                }
             },
           ],
           {
@@ -101,6 +114,15 @@ export default function ServiceProviderPage({ route, navigation }) {
           )
 
     }
+
+    if (isLoading) {
+        return (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size={120} color="#14274E" />
+            <Text>Carregando...</Text>
+          </View>
+        );
+      }
 
   return (
     <>

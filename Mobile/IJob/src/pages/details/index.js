@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image, ScrollView } from 'react-native'
+import { View, Text, FlatList, Image, ScrollView, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { styles } from '../../styles/styles'
 import HeaderComponent from "../../components/headerComponent";
@@ -14,19 +14,34 @@ export default function Details({ route, navigation }) {
   const { id } = route.params
   const [user, setUser] = useState({})
   const [imageList, setImageList] = useState([]);
+  const [services, setServices] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     findUser(id)
     .then((result)=>{
       setUser(result)
+      console.log();
       let imgs = result.imagens.map((img) => img.url)
+      let services = (result.servicos.map((x) => x.name)).join("; ")
       setImageList(imgs)
+      setServices(services)
+      setIsLoading(false);
     })
     .catch((error)=>{
       console.error(error)
     })
     return () => {};
   }, [])
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size={120} color="#14274E" />
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
 
   return (
    <View style={{backgroundColor:'#F1F6F9'}}> 
@@ -40,8 +55,8 @@ export default function Details({ route, navigation }) {
           />
             <View style={{flexDirection:'column', paddingTop:15}}>
               <Text style={[styles.formTitle,{fontSize:18, paddingBottom:12, margin:0,marginLeft:0, alignSelf:"flex-start"}]}>{user.name}</Text>
-              <Text style={[styles.formTitle,{fontSize:18, paddingBottom:0, margin:0}]}>Serviços disponíveis:</Text>
-              <Text style={{fontSize:16, color:'#14274E'}}>{(user.servicos.map((x) => x.name)).join("; ")}</Text>
+              <Text style={[styles.formTitle,{fontSize:18, paddingBottom:0, margin:0, marginLeft:0, alignSelf:'flex-start'}]}>Serviços disponíveis:</Text>
+              <Text style={{fontSize:16, color:'#14274E'}}>{services}</Text>
               <TouchableOpacity 
                 style={[styles.formButton,{width:138, elevation:5 ,height:30, padding:0, paddingTop:3, alignSelf:'flex-end'}]}
               >

@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { styles } from '../../styles/styles'
 import AvatarComponent from '../../components/avatarComponent'
@@ -15,6 +15,7 @@ export default function Profile() {
   const [user, setUser] = useState({})
   const [imageList, setImageList] = useState([])
   const [services, setServices] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     findUser(userLogged.data.id)
@@ -26,6 +27,7 @@ export default function Profile() {
 
       setImageList(imgs)
       setServices(services)
+      setIsLoading(false);
     })
     .catch((error)=>{
       console.error(error)
@@ -33,6 +35,16 @@ export default function Profile() {
 
     return () => {};
   }, [])
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size={120} color="#14274E" />
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
+  
 
   if (!userLogged.data.independent) {
     return (

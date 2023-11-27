@@ -6,12 +6,13 @@ import CardComponent from '../../components/cardComponent';
 import { useEffect } from 'react';
 import { findAll } from "../../services/findAllIndependent";
 import { styles } from '../../styles/styles';
-import { Text } from 'react-native';
+import { Text, ActivityIndicator } from 'react-native';
 
 export default function ShowEmployes({ route, navigation }) {
   const { id } = route.params
-  const [employesData, setEmployesData] = useState([]);
+  const [employesData, setEmployesData] = useState([])
   const [services, setServices] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
 
   const indentifyService = ()=>{
     switch (id) {
@@ -48,11 +49,13 @@ export default function ShowEmployes({ route, navigation }) {
       
     }
   }
+
   useEffect(() => {
     findAll(id)
       .then((independets) => {
         setEmployesData(independets)
         indentifyService()
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error('Erro durante o login:', error);
@@ -65,14 +68,23 @@ export default function ShowEmployes({ route, navigation }) {
     }
   }, [])
 
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size={120} color="#14274E" />
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
+  
   if (employesData.length == 0) {
     return (
       <View style={stylesCard.container}>
-      <HeaderComponent title='Profissionais Encotrados' />
-      <View style={{ flex: 1 }}>
-      <Text style={[{fontSize:26, fontWeight:'800', color:'#14274E', textAlign:'center',marginTop:"50%"}]}>Ops infelizmente não encontramos nenhum prestador na sua localidade 😕</Text>  
+        <HeaderComponent title='Profissionais Encotrados' />
+        <View style={{ flex: 1 }}>
+          <Text style={[{fontSize:26, fontWeight:'800', color:'#14274E', textAlign:'center',marginTop:"50%"}]}>Ops infelizmente não encontramos nenhum prestador na sua localidade 😕</Text>  
+        </View>
       </View>
-    </View>
     );
   }
 

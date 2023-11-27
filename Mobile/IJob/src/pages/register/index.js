@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Image , Pressable, TouchableOpacity, Platform, Alert } from 'react-native'
+import { View, Text, TextInput, Image , Pressable, TouchableOpacity, Platform, Alert, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react';
 import { styles } from '../../styles/styles'
 import { CheckBox } from '@rneui/themed';
@@ -21,29 +21,36 @@ export default function Register() {
   const [date, setDate] = useState(new Date())
   const [showPicker, setShowPicker] = useState(false)
   const [btnCreate, setBtnCreate] = useState('Criar Conta')
-  
+  const [isLoading, setIsLoading] = useState(false)
+  const navigation = useNavigation()
+
   function newUser() {
     let user = userFactory(name,cpf, new Date(date).getTime(),email,password, radioButtonIndex == 1 ? true: false);
+    user.description = null
+    user.servicos = []
 
     if(radioButtonIndex == 1) { 
       navigation.navigate('ServiceProvider', { data:user })
       return
-    } 
-    
+    }
+
     const cpfIsValid = this.cpfField.isValid()
     if(!cpfIsValid) alert('Insira um CPF Válido')  
     else if ( !email  || !password || !rePassword) alert('Preencha todos os dados')
     else if (password !== rePassword) alert('As senhas devem ser iguais')
     else{
-      createUser(user)
+      setIsLoading(true)
+       createUser(user)
       .then((userResponse) => {
         console.log(userResponse)
         _= new UserInstance(userResponse)
         if(userResponse) navigation.navigate('Home')
         else Alert.alert("Error","Error durante o registro, tente novamente")
+        setIsLoading(false)
+
       })
       .catch((error) => {
-        console.error('Erro durante o login:', error)
+        console.error('Erro durante o Registro:', error)
         const errorCode = error.code
         const errorMessage = error.message
         alert(errorMessage)
@@ -80,8 +87,16 @@ export default function Register() {
       }
   }
 
-  const navigation = useNavigation()
-  
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size={120} color="#14274E" />
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <Text style={[styles.formTitle,{color:'#111111', paddingBottom:-10, fontSize:36}]}>Escolha uma opção</Text>
