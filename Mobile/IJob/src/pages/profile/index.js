@@ -11,17 +11,21 @@ import UserInstance from "../../constants/userInstance";
 import { FlatList } from 'react-native'
 
 export default function Profile() {
-  
+  const userLogged = new UserInstance()
   const [user, setUser] = useState({})
-  const [imageList, setImageList] = useState([]);
+  const [imageList, setImageList] = useState([])
+  const [services, setServices] = useState([])
 
   useEffect(() => {
-    const userLogged = new UserInstance()
     findUser(userLogged.data.id)
-    .then((result)=>{
+    .then((result) => {
       setUser(result)
+      
       let imgs = result.imagens.map((img) => img.url)
+      let services = result.imagens.map((img) => img.servicos)
+
       setImageList(imgs)
+      setServices(services)
     })
     .catch((error)=>{
       console.error(error)
@@ -29,6 +33,14 @@ export default function Profile() {
 
     return () => {};
   }, [])
+
+  if (!userLogged.data.independent) {
+    return (
+      <View style={styles.container}>
+        <Text style={[{fontSize:27, fontWeight:'800', color:'#14274E', textAlign:'center',}]}>Opss você não é prestador de serviço. Essa página só é disponível para nossos parceiros</Text>  
+      </View>
+    );
+  }
 
   return (
     <View style={{backgroundColor:"#F1F6F9", flex:1}}>
@@ -41,7 +53,7 @@ export default function Profile() {
         <View style={{width:320,flexDirection:'row', marginTop:15}}>
           <View style={{flexDirection:'column', alignSelf:'flex-start', width:270}}>
             <Text style={[styles.formTitle,{fontSize:16, paddingBottom:4, margin:0,marginLeft:-1, alignSelf:'flex-start'}]}>Serviços disponíveis: </Text>
-            <Text style={{fontSize:15, color:'#14274E', alignSelf:'flex-start'}}>{(user.servicos.map((x) => x.name)).join("; ")}</Text>
+            <Text style={{fontSize:15, color:'#14274E', alignSelf:'flex-start'}}>{services.join("; ")}</Text>
           </View>
           <Icon name='edit' size={35} style={{marginLeft:10, marginTop:10}}/>
         </View>
