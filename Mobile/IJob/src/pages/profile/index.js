@@ -37,7 +37,7 @@ export default function Profile() {
   if (!userLogged.data.independent) {
     return (
       <View style={styles.container}>
-        <Text style={[{fontSize:27, fontWeight:'800', color:'#14274E', textAlign:'center',}]}>Opss você não é prestador de serviço. Essa página só é disponível para nossos parceiros</Text>  
+        <Text style={[{fontSize:27, fontWeight:'800', color:'#14274E', textAlign:'center',}]}>Opss você não é prestador de serviço. Essa página só é disponível para nossos parceiros 😕</Text>  
       </View>
     );
   }

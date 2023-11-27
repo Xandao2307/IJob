@@ -5,18 +5,54 @@ import HeaderComponent from '../../components/headerComponent';
 import CardComponent from '../../components/cardComponent';
 import { useEffect } from 'react';
 import { findAll } from "../../services/findAllIndependent";
-export default function ShowEmployes() {
-  const navigation = useNavigation();
+import { styles } from '../../styles/styles';
+import { Text } from 'react-native';
 
-  // Usando useState para armazenar a lista de profissionais
-  const [employesData, setEmployesData] = useState([
-    // Adicione mais objetos conforme necessário
-  ]);
+export default function ShowEmployes({ route, navigation }) {
+  const { id } = route.params
+  const [employesData, setEmployesData] = useState([]);
+  const [services, setServices] = useState("")
+
+  const indentifyService = ()=>{
+    switch (id) {
+      case '1':
+        setServices('Manicure')
+        break;
+    case '2':
+        setServices('Serviço de Limpeza')
+        break;
+    case '3':
+        setServices('Manutenção de Computadores')
+        break;
+    case '4':
+        setServices('Carretos')
+        break;
+    case '5':
+        setServices('Massagista')
+        break;
+    case '6':
+        setServices('Montador de Móveis')
+        break;
+    case '7':
+        setServices('Encanador')
+        break;
+    case '8':
+        setServices('Pedreiro')
+        break;
+    case '9':
+        setServices('Eletricista')
+        break;
+    case '10':
+      setServices('Pintor')
+      break;
+      
+    }
+  }
   useEffect(() => {
-
-    findAll()
+    findAll(id)
       .then((independets) => {
         setEmployesData(independets)
+        indentifyService()
       })
       .catch((error) => {
         console.error('Erro durante o login:', error);
@@ -29,6 +65,17 @@ export default function ShowEmployes() {
     }
   }, [])
 
+  if (employesData.length == 0) {
+    return (
+      <View style={stylesCard.container}>
+      <HeaderComponent title='Profissionais Encotrados' />
+      <View style={{ flex: 1 }}>
+      <Text style={[{fontSize:26, fontWeight:'800', color:'#14274E', textAlign:'center',marginTop:"50%"}]}>Ops infelizmente não encontramos nenhum prestador na sua localidade 😕</Text>  
+      </View>
+    </View>
+    );
+  }
+
   return (
     <View style={stylesCard.container}>
       <HeaderComponent title='Profissionais Encotrados' />
@@ -39,7 +86,7 @@ export default function ShowEmployes() {
           renderItem={({ item }) => (
             <CardComponent
               name={item.name}
-              profession={item.profession}
+              profession={services}
               description={item.description}
               id={item.id}
             />
