@@ -22,3 +22,14 @@ export async function findAssementByServicoId(prestadorId,servicoId) {
         console.error(error)
     }
 }
+
+export async function findAssementByPrestadorId(prestadorId) {
+    console.log("Enviando avaliação...");
+    try {
+        const result = await axios.get(Url_Api_IP + `avaliacao/prestador/${prestadorId}`)
+       
+        return result.data
+    } catch (error) {
+        console.error(error)
+    }
+}

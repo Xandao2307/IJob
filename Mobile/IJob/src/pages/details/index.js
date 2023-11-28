@@ -9,6 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import { useEffect } from 'react';
 import { findUser } from '../../services/findUser';
+import { findAssementByPrestadorId, findAssementByServicoId } from '../../services/sendAssementService';
+import { formatDateLong, formatDateShort } from '../historic';
 
 export default function Details({ route, navigation }) {
   const { id } = route.params
@@ -16,15 +18,7 @@ export default function Details({ route, navigation }) {
   const [imageList, setImageList] = useState([]);
   const [services, setServices] = useState('')
   const [isLoading, setIsLoading] = useState(true)
-  const [avaliacoes, setAvaliacoes] = useState([
-    {
-      nome: 'Vanila',
-      data: '23/07/2023',
-      avaliacao: 4,
-      comentario: 'Atrasou na chegada mas o serviço é excelente.',
-    },
-    // Adicione mais avaliações conforme necessário
-  ]);
+  const [avaliacoes, setAvaliacoes] = useState([]);
 
   useEffect(() => {
     findUser(id)
@@ -35,11 +29,23 @@ export default function Details({ route, navigation }) {
       let services = (result.servicos.map((x) => x.name)).join("; ")
       setImageList(imgs)
       setServices(services)
-      setIsLoading(false);
     })
     .catch((error)=>{
       console.error(error)
     })
+
+    findAssementByPrestadorId(id)
+    .then(async (res) => {
+
+      for (let i = 0; i < res.length; i++) {
+        let user = await findUser(res[i].agendaServico.prestadorId)
+        res[i].prestador = user
+      }
+      setAvaliacoes(res)
+      setIsLoading(false);
+
+    })
+    .catch((err)=> console.error(err))
     return () => {};
   }, [])
 
@@ -63,9 +69,9 @@ export default function Details({ route, navigation }) {
         {avaliacoes.map((item, index) => (
           <View key={index}>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 16, color: '#14274E', marginRight: 6 }}>{item.nome}</Text>
-              <Text style={{ fontSize: 16, color: '#14274E' }}>{item.data}</Text>
-              <AirbnbRating size={14} showRating={false} isDisabled={true} defaultRating={item.avaliacao} count={5} />
+              <Text style={{ fontSize: 16, color: '#14274E', marginRight: 6 }}>{item.prestador.name}</Text>
+              <Text style={{ fontSize: 16, color: '#14274E' }}>{formatDateShort(item.dtAvaliacao)}</Text>
+              <AirbnbRating size={14} showRating={false} isDisabled={true} defaultRating={item.nota} count={5} />
             </View>
             <Text style={{ fontSize: 14, color: '#14274E' }}>{item.comentario}</Text>
             <Card.Divider />

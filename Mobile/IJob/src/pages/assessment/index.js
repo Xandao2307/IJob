@@ -4,7 +4,7 @@ import WorkerNameDate from '../../components/workerNameDate';
 import HeaderComponent from '../../components/headerComponent';
 import { AirbnbRating } from 'react-native-ratings';
 import { TextInput, TouchableOpacity } from 'react-native';
-import { formatDate } from '../historic';
+import { formatDateLong } from '../historic';
 import { styles } from '../../styles/styles';
 import { Alert } from 'react-native';
 import { findAssementByServicoId, sendAssementService } from '../../services/sendAssementService';
@@ -64,7 +64,7 @@ export default function Assessement({ route, navigation }) {
           </Text>
         </View>
         <View style={{ marginLeft: -70 }}>
-          <WorkerNameDate name={servico.prestador.name} date={formatDate(servico.dtInicio)} />
+          <WorkerNameDate name={servico.prestador.name} date={formatDateLong(servico.dtInicio)} />
         </View>
         <View style={{ marginTop: 35, marginBottom: 35 }}>
           <AirbnbRating

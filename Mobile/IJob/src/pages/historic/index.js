@@ -15,7 +15,7 @@ import { Alert } from 'react-native'
 import { updateSeConcluido } from '../../services/updateSeConcluidoService'
 
 
-export const formatDate = (dt)=>{
+export const formatDateLong = (dt)=>{
   const data = new Date(dt);
 
   const dia = String(data.getDate()).padStart(2, '0');
@@ -27,6 +27,16 @@ export const formatDate = (dt)=>{
   const segundos = String(data.getSeconds()).padStart(2, '0');
 
   return `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
+}
+
+export const formatDateShort = (dt)=>{
+  const data = new Date(dt);
+
+  const dia = String(data.getDate()).padStart(2, '0');
+  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Os meses são baseados em zero
+  const ano = data.getFullYear();
+
+  return `${dia}/${mes}/${ano}`;
 }
 
 export default function HistoricPage() {
@@ -66,7 +76,7 @@ export default function HistoricPage() {
       return (
         <InformationWork
           name={item.prestador.name}
-          date={formatDate(item.dtInicio)}
+          date={formatDateLong(item.dtInicio)}
           avatarNameDataFn={() => {}}
           assessmentFn={() => {
             Alert.alert("Serviço Finalizado","Serviço Encerrado Obrigado!")
@@ -82,7 +92,7 @@ export default function HistoricPage() {
         <ActiveWork
           name={item.prestador.name}
           profession={item.prestador.servicos ? "Sem serviços cadastrados" : (item.prestador.servicos.map((x)=> x.name)).join("; ")}
-          date={formatDate(item.dtInicio)}
+          date={formatDateLong(item.dtInicio)}
           assessmentFn={() => Alert.alert("Aviso!","Só podera avaliar após a conclusão do serviço")}
           informationFn={() => {}}
         />
@@ -91,7 +101,7 @@ export default function HistoricPage() {
       return (
         <PastWork
           name={item.prestador.name}
-          date={formatDate(item.dtInicio)}
+          date={formatDateLong(item.dtInicio)}
           avatarNameDataFn={() => {}}
           assessmentFn={() => navigation.navigate('Assessement', {servico:item})}
           id = {item.id}
