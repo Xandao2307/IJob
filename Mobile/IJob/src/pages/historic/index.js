@@ -3,46 +3,19 @@ import React from 'react'
 import { styles } from '../../styles/styles'
 import ActiveWork from '../../components/activeWork'
 import PastWork from '../../components/pastWork'
+import InformationWork from '../../components/informationWork'
+
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { FlatList } from 'react-native'
 import { findAllServicesByUserId, findAllServicesByWorkerId } from '../../services/findAllServicesService'
 import UserInstance from "../../constants/userInstance";
 import { useEffect } from 'react'
+import { Alert } from 'react-native'
+import { updateSeConcluido } from '../../services/updateSeConcluidoService'
 
-export default function HistoricPage() {
-  const navigation = useNavigation()
-  const userLogged = new UserInstance()
-  const [works, setWorks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    if(userLogged.data.independent){
-      findAllServicesByWorkerId(userLogged.data.id)
-      .then((result) => {
-        setWorks(result)
-        setIsLoading(false);
-
-      })
-      .catch((error)=>{
-        console.error(error)
-      })
-    }else{
-      findAllServicesByUserId(userLogged.data.id)
-      .then((result) => {
-        setWorks(result)
-        setIsLoading(false);
-
-      })
-      .catch((error)=>{
-        console.error(error)
-      })
-    }
-
-    return () => {};
-  }, [])
-
-const formatDate = (dt)=>{
+export const formatDate = (dt)=>{
   const data = new Date(dt);
 
   const dia = String(data.getDate()).padStart(2, '0');
@@ -56,26 +29,72 @@ const formatDate = (dt)=>{
   return `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
 }
 
+export default function HistoricPage() {
+  const navigation = useNavigation()
+  const userLogged = new UserInstance()
+  const [works, setWorks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
 
+  useEffect(() => {
+    if (!userLogged.data.independent) {
+      findAllServicesByWorkerId(userLogged.data.id)
+      .then((result) => {
+        setWorks(result)
+        setIsLoading(false);
+
+      })
+      .catch((error)=>{
+        console.error(error)
+      })
+    }
+    else{
+      findAllServicesByUserId(userLogged.data.id)
+      .then((result) => {
+        setWorks(result)
+        setIsLoading(false);
+
+      })
+      .catch((error)=>{
+        console.error(error)
+      })
+    }
+    return () => {};
+  }, [])
 
   const renderWorkComponent = ({ item }) => {
+    if (userLogged.data.independent) {
+      return (
+        <InformationWork
+          name={item.prestador.name}
+          date={formatDate(item.dtInicio)}
+          avatarNameDataFn={() => {}}
+          assessmentFn={() => {
+            Alert.alert("Serviço Finalizado","Serviço Encerrado Obrigado!")
+            updateSeConcluido(item.id, true)
+          }}
+          id= {item.id}
+        />
+      );
+    }
+
     if (!item.seConcluido) {
       return (
         <ActiveWork
-          name={item.prestadorId.name}
-          profession={item.prestadorId.servicos ? "Sem serviços cadastrados" : (item.prestadorId.servicos.map((x)=> x.name)).join("; ")}
+          name={item.prestador.name}
+          profession={item.prestador.servicos ? "Sem serviços cadastrados" : (item.prestador.servicos.map((x)=> x.name)).join("; ")}
           date={formatDate(item.dtInicio)}
-          assessmentFn={() => navigation.navigate('Assessement')}
+          assessmentFn={() => Alert.alert("Aviso!","Só podera avaliar após a conclusão do serviço")}
           informationFn={() => {}}
         />
       );
     } else {
       return (
         <PastWork
-          name={item.prestadorId.name}
+          name={item.prestador.name}
           date={formatDate(item.dtInicio)}
           avatarNameDataFn={() => {}}
-          assessmentFn={() => navigation.navigate('Assessement')}
+          assessmentFn={() => navigation.navigate('Assessement', {servico:item})}
+          id = {item.id}
         />
       );
     }
