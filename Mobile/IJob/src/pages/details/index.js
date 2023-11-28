@@ -16,6 +16,15 @@ export default function Details({ route, navigation }) {
   const [imageList, setImageList] = useState([]);
   const [services, setServices] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [avaliacoes, setAvaliacoes] = useState([
+    {
+      nome: 'Vanila',
+      data: '23/07/2023',
+      avaliacao: 4,
+      comentario: 'Atrasou na chegada mas o serviço é excelente.',
+    },
+    // Adicione mais avaliações conforme necessário
+  ]);
 
   useEffect(() => {
     findUser(id)
@@ -45,20 +54,6 @@ export default function Details({ route, navigation }) {
 
   const AvaliacoesCard = () => {
     // Exemplo de dados de avaliação
-    const avaliacoes = [
-      {
-        nome: 'Vanila',
-        data: '23/07/2023',
-        avaliacao: 4,
-        comentario: 'Atrasou na chegada mas o serviço é excelente.',
-      },  {
-        nome: 'Vanila',
-        data: '23/07/2023',
-        avaliacao: 4,
-        comentario: 'Atrasou na chegada mas o serviço é excelente.',
-      },
-      // Adicione mais avaliações conforme necessário
-    ];
   
     return (
       <Card containerStyle={{ width: 320, elevation: 5, backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>
