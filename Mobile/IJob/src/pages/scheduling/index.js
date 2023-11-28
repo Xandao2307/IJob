@@ -120,7 +120,7 @@ export default function Scheduling() {
           <TextInput 
           style={[styles.formInput,{height: 40, color:'black', width:330, fontSize:19, fontWeight:'bold'}]} 
         
-          placeholder='Data Nascimento'
+          placeholder='Horário do serviço'
           value={dateAndTime}
           editable={false}/>
         </Pressable>
