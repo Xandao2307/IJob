@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -100,6 +101,7 @@ export default function ShowEmployes({ route, navigation }) {
               name={item.name}
               profession={services}
               description={item.description}
+              worker={item}
               id={item.id}
             />
           )}

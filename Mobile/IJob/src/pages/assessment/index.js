@@ -14,44 +14,41 @@ export default function Assessement({ route, navigation }) {
   const [rating, setRating] = useState(3); 
   const [comment, setComment] = useState(''); 
   const sendAssement =  () => {
-    let alreadyEvaluated  = false;
+    let alreadyEvaluated = false;
 
     if(!comment) {
       Alert.alert("Atenção!","Por favor inserir um comentário sobre o serviço")
       return
     }
+
     findAssementByServicoId(servico.prestadorId,servico.id)
     .then((res)=>{
-      if(res.length){
+      if(res.length > 0){
         Alert.alert('Atenção','Você ja avaliou esse serviço')
         navigation.navigate('Home')
-        alreadyEvaluated = true;
+      }else{
+        const avaliacao = {
+          nota:rating,
+          comentario:comment,
+          dtAvaliacao:Date.now(),
+          agendaServico:{
+            id: servico.id,
+            prestadorId: servico.prestadorId,
+            usuarioId: servico.usuarioId,
+            dtInicio: servico.dtInicio,
+            seConcluido: servico.seConcluido,  
+          }
+        }
+        sendAssementService(avaliacao)
+        .then((res) =>{
+          console.log(res);
+          Alert.alert("Concluido","Avaliação enviada, Obrigado!")
+          navigation.navigate('Home')
+        })
+        .catch((error)=> console.error(error))
       }
-
     })
-    .catch((error)=> console.error(error))
-
-    const avaliacao = {
-      nota:rating,
-      comentario:comment,
-      dtAvaliacao:Date.now(),
-      agendaServico:{
-        id: servico.id,
-        prestadorId: servico.prestadorId,
-        usuarioId: servico.usuarioId,
-        dtInicio: servico.dtInicio,
-        seConcluido: servico.seConcluido,  
-      }
-    }
-
-    if(alreadyEvaluated){
-      sendAssementService(avaliacao)
-      .then((res) =>{
-        Alert.alert("Concluido","Avaliação enviada, Obrigado!")
-        navigation.navigate('Home')
-      })
-      .catch((error)=> console.error(error))
-    }
+    .catch((err)=>console.error(err))
   };
 
   return (

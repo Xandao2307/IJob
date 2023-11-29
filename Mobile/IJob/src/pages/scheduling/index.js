@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { styles } from '../../styles/styles'
 import { Calendar, LocaleConfig } from 'react-native-calendars'
@@ -7,12 +7,16 @@ import HeaderComponent from "../../components/headerComponent";
 import { TouchableOpacity } from 'react-native'
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { Pressable } from 'react-native'
+import UserInstance from '../../constants/userInstance'
+import { createServico } from '../../services/createServicoService'
 
-export default function Scheduling() {
+export default function Scheduling({ route, navigation }) {
+  const { worker } = route.params
+  const userLogged = new UserInstance()
   const [showPicker, setShowPicker] = useState(false)
   const [daySelected, setDaySelected] = useState('');
   const [dateAndTime, setDateAndTime] = useState('')
-  const [date, setDate] = useState(new Date())
+  const [hourMinute, setHourMinute] = useState(new Date())
 
   const toggleDatepicker = () => setShowPicker(!showPicker)
   
@@ -26,7 +30,7 @@ export default function Scheduling() {
   const onChangePicker = ( {type}, selectedDate) =>{
       if (type == 'set') {
           const currentDate = selectedDate
-          setDate(currentDate)
+          setHourMinute(currentDate)
           if (Platform.OS === 'android') {
             toggleDatepicker()
             setDateAndTime(formatDate(currentDate))
@@ -73,6 +77,34 @@ export default function Scheduling() {
 
   LocaleConfig.defaultLocale = 'br'
 
+  const createService = () =>{
+    if (!daySelected || !hourMinute) {
+      Alert.alert("Ateção", "Por favor insira data e hora para o serviço")
+      return
+    }
+    const dt = new Date(daySelected)
+    const datetime = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),hourMinute.getHours(),hourMinute.getMinutes())    
+    // const fusoHorarioBrasilia = "America/Sao_Paulo";
+    // const novaDataBrasilia = datetime.toLocaleString("pt-BR", { timeZone: fusoHorarioBrasilia });
+    const servico = {
+      "prestadorId":worker.id,
+      "usuarioId":userLogged.data.id,
+      "dtInicio": datetime.getTime(),
+      "seConcluido":false
+    }
+    console.log(servico);
+
+    createServico(servico)
+    .then((result => {
+      console.log(result);
+      Alert.alert("Pronto!","Serviço Agendado com sucesso. Obrigado 😊")
+      navigation.navigate('Home')
+    }))
+    .catch((err)=> console.error(err))
+
+  }
+
+
   return (
     <View style={{backgroundColor:'#F1F6F9', flex:1}}> 
     <HeaderComponent
@@ -110,7 +142,7 @@ export default function Scheduling() {
           <DateTimePicker
           mode='time'
           display='default'
-          value={date}
+          value={hourMinute}
           onChange={onChangePicker}
           />
         )
@@ -125,7 +157,7 @@ export default function Scheduling() {
           editable={false}/>
         </Pressable>
 
-        <TouchableOpacity style={[styles.formButton, {backgroundColor:'#14274E', elevation:5 , marginBottom:0, marginTop:40, width:330}]}>
+        <TouchableOpacity onPress={createService} style={[styles.formButton, {backgroundColor:'#14274E', elevation:5 , marginBottom:0, marginTop:40, width:330}]}>
             <Text style={styles.textButton}>Solicitar Agendamento</Text>
         </TouchableOpacity>
 

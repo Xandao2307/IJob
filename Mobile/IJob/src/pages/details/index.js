@@ -13,7 +13,7 @@ import { findAssementByPrestadorId, findAssementByServicoId } from '../../servic
 import { formatDateLong, formatDateShort } from '../historic';
 
 export default function Details({ route, navigation }) {
-  const { id } = route.params
+  const { id, worker } = route.params
   const [user, setUser] = useState({})
   const [imageList, setImageList] = useState([]);
   const [services, setServices] = useState('')
@@ -129,7 +129,7 @@ export default function Details({ route, navigation }) {
               <Text style={styles.textButton}>Iniciar Chat</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Scheduling')} style={[styles.formButton, { backgroundColor: '#14274E', elevation: 10 }]}>
+            <TouchableOpacity onPress={() => navigation.navigate('Scheduling',{worker:worker})} style={[styles.formButton, { backgroundColor: '#14274E', elevation: 10 }]}>
               <Text style={styles.textButton}>Agendar</Text>
             </TouchableOpacity>
           </View>

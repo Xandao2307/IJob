@@ -14,7 +14,7 @@ import { useEffect } from 'react'
 import { Alert } from 'react-native'
 import { updateSeConcluido } from '../../services/updateSeConcluidoService'
 
-
+const fusoHorarioBrasilia = "America/Sao_Paulo";
 export const formatDateLong = (dt)=>{
   const data = new Date(dt);
 
@@ -46,7 +46,7 @@ export default function HistoricPage() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    if (!userLogged.data.independent) {
+    if (userLogged.data.independent) {
       findAllServicesByWorkerId(userLogged.data.id)
       .then((result) => {
         setWorks(result)
@@ -76,7 +76,7 @@ export default function HistoricPage() {
       return (
         <InformationWork
           name={item.prestador.name}
-          date={formatDateLong(item.dtInicio)}
+          date={formatDateLong(item.dtInicio.toLocaleString("pt-BR", { timeZone: fusoHorarioBrasilia }))}
           avatarNameDataFn={() => {}}
           assessmentFn={() => {
             Alert.alert("Serviço Finalizado","Serviço Encerrado Obrigado!")
@@ -92,7 +92,7 @@ export default function HistoricPage() {
         <ActiveWork
           name={item.prestador.name}
           profession={item.prestador.servicos ? "Sem serviços cadastrados" : (item.prestador.servicos.map((x)=> x.name)).join("; ")}
-          date={formatDateLong(item.dtInicio)}
+          date={formatDateLong(item.dtInicio.toLocaleString("pt-BR", { timeZone: fusoHorarioBrasilia }))}
           assessmentFn={() => Alert.alert("Aviso!","Só podera avaliar após a conclusão do serviço")}
           informationFn={() => {}}
         />
@@ -101,7 +101,7 @@ export default function HistoricPage() {
       return (
         <PastWork
           name={item.prestador.name}
-          date={formatDateLong(item.dtInicio)}
+          date={formatDateLong(item.dtInicio.toLocaleString("pt-BR", { timeZone: fusoHorarioBrasilia }))}
           avatarNameDataFn={() => {}}
           assessmentFn={() => navigation.navigate('Assessement', {servico:item})}
           id = {item.id}

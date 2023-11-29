@@ -5,6 +5,7 @@ import ConversationComponent from '../../components/conversationComponent';
 import { useNavigation } from '@react-navigation/native';
 import ChatService from '../../services/chatService';
 import UserInstance from "../../constants/userInstance";
+import { Text } from 'react-native';
 
 // import socketIO from 'socket.io-client';
 
@@ -45,6 +46,16 @@ export default function ChatPage({ socketProvider }) {
       runLoadChats()
     });
   }, [socket]);
+
+
+  if (conversations) {
+    return (
+      <View style={styles.container}>
+        <Text style={[{fontSize:27, fontWeight:'800', color:'#14274E', textAlign:'center',}]}>Opss você tem nenhuma mensagem 😕</Text>  
+      </View>
+    );
+  }
+
 
   return (
     <View style={{ backgroundColor: '#F1F6F9', flex: 1 }}>

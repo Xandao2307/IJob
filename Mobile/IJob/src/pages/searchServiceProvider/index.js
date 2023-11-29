@@ -4,12 +4,14 @@ import { styles } from "../../styles/styles"
 import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Alert } from 'react-native';
+import UserInstace from "../../constants/userInstance";
 
 export default function SearchServiceProviderPage() {
   const navigation = useNavigation()
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const userLogged = new UserInstace()
   const [items, setItems] = useState([
     {label: 'Manicure', value: '1'},
     {label: 'Serviço de limpeza', value: '2'},
@@ -22,10 +24,18 @@ export default function SearchServiceProviderPage() {
     {label: 'Eletricista (Reparos Elétricos)', value: '9'},
     {label: 'Pintor', value: '10'},
   ])
-
+  
   const findWorkers = () =>{
     if(value == null) Alert.alert("Erro","Selecione o tipo de prestador de serviço")
     else navigation.navigate('ShowEmployes', {id: value})
+  }
+
+  if (userLogged.data.independent) {
+    return (
+      <View style={styles.container}>
+        <Text style={[{fontSize:27, fontWeight:'800', color:'#14274E', textAlign:'center',}]}>Opss você é prestador de serviço. Essa página só é disponível para nossos clientes 😕</Text>  
+      </View>
+    );
   }
 
   return (
