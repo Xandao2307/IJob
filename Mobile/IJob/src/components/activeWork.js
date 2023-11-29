@@ -28,12 +28,12 @@ export default function activeWork(props) {
             <Text style={{color:'white', fontSize:15,textAlign:'center', fontWeight:'bold'}}>Avaliar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
             onPress={props.informationFn}
             style={[styles.formButton,{width:130, elevation:5 ,height:30, padding:0, paddingTop:3, alignSelf:'flex-end'}]}
             >
             <Text style={{color:'white', fontSize:15,textAlign:'center', fontWeight:'bold'}}>Mais Informações</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
   </View>
   )

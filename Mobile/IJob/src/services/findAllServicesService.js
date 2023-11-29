@@ -6,13 +6,16 @@ export async function findAllServicesByUserId(id) {
     try {
         console.log("Buscando os serviços feitos...");
         const result = await axios.get(Url_Api_IP + `agendaservico/usuario/${id}`)
-        for (let i = 0; i < result.length; i++) {
-            const prestador = await findUser(result[i].prestadorId)
-            const usuario = await findUser(result[i].usuarioId)
-            result[i].prestadorId = prestador
-            result[i].usuarioId = usuario
-            console.log(result);
-        }    
+        
+        for (let i = 0; i < result.data.length; i++) {
+            const prestador = await findUser(result.data[i].prestadorId)
+            const usuario = await findUser(result.data[i].usuarioId)
+            result.data[i].prestador = prestador
+            result.data[i].usuario = usuario
+        }
+
+        return result.data
+
     } 
     catch (error) {
         console.error(error)
@@ -26,9 +29,8 @@ export async function findAllServicesByWorkerId(id) {
         for (let i = 0; i < result.length; i++) {
             const prestador = await findUser(result[i].prestadorId)
             const usuario = await findUser(result[i].usuarioId)
-            result[i].prestadorId = prestador
-            result[i].usuarioId = usuario
-            console.log(result);
+            result[i].prestador = prestador
+            result[i].usuario = usuario
         }
         return result;
     } 
