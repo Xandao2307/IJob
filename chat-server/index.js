@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
       chatId: data.id,
       userId: data.userId
     }
-    const { data: dataMsg } = await axios.post("http://192.168.0.2:8080/chat/message", msg)
+    const { data: dataMsg } = await axios.post("http://localhost:8080/chat/message", msg)
     io.emit('messageResponse', dataMsg);
   });
 
