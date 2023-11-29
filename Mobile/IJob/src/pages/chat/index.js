@@ -1,40 +1,69 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, TextInput, FlatList } from 'react-native';
 import { styles } from '../../styles/styles';
 import ConversationComponent from '../../components/conversationComponent';
 import { useNavigation } from '@react-navigation/native';
+import ChatService from '../../services/chatService';
+import UserInstance from "../../constants/userInstance";
 
-export default function ChatPage() {
+// import socketIO from 'socket.io-client';
+
+// const socket = socketIO.connect('http://192.168.1.11:4000');
+
+export default function ChatPage({ socketProvider }) {
   const navigation = useNavigation();
+  const { loadChats } = ChatService()
 
-  // Exemplo de lista de conversas
-  const [conversations, setConversations] = useState([
-    { id: '1', name: 'Ana Maria Carolina', lastMsg: 'Agendado para quinta-feira' },
-    { id: '2', name: 'João Silva', lastMsg: 'Oi, como você está?' },
-    // Adicione mais objetos conforme necessário
-  ]);
+  const { socket } = socketProvider
+
+  const user = new UserInstance().getData()
+
+  const [conversations, setConversations] = useState([]);
+
+  const mapConversations = (chats) => {
+    return chats.map(chat => {
+      return {
+        name: chat[0],
+        id: chat[1],
+        lastMsg: chat[2]
+      }
+    })
+  }
+
+  const runLoadChats = useCallback(async () => {
+    const chats = await loadChats(Number(user.id))
+    if (chats && chats.length) setConversations(mapConversations(chats))
+  }, [])
+
+
+  useEffect(() => {
+    runLoadChats()
+  }, [runLoadChats])
+
+  useEffect(() => {
+    socket.on('messageResponse', (data) => {
+      runLoadChats()
+    });
+  }, [socket]);
 
   return (
     <View style={{ backgroundColor: '#F1F6F9', flex: 1 }}>
       <View style={[styles.container, { flex: 0 }]}>
-        <TextInput
-          placeholderTextColor={'gray'}
-          placeholder='Buscar conversa'
-          style={[
-            styles.formInput,
-            { width: '90%', backgroundColor: 'white', borderColor: 'gray', elevation: 6 },
-          ]}
-        />
 
         <FlatList
           data={conversations}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={{paddingBottom:15, paddingLeft:10}}
+          contentContainerStyle={{ paddingBottom: 15, paddingLeft: 10 }}
           renderItem={({ item }) => (
             <ConversationComponent
               name={item.name}
               lastMsg={item.lastMsg}
-              onPress={() => navigation.navigate('Conversation')}
+              onPress={() => navigation.navigate('Conversation', {
+                user: {
+                  id: Number(item.id),
+                  name: item.name
+                }
+              })}
             />
           )}
         />

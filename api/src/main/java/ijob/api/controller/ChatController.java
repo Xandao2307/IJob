@@ -1,9 +1,12 @@
 package ijob.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ijob.api.controller.dto.ChatDTO;
+import ijob.api.controller.dto.ListChatDTO;
 import ijob.api.controller.dto.MessageDTO;
 import ijob.api.model.Message;
 import ijob.api.service.ChatService;
@@ -22,13 +25,17 @@ public class ChatController {
 	
 	
 	@GetMapping("/start")
-	public ChatDTO Start(@RequestParam Long clientId,  @RequestParam Long independentId) {
-		return service.startChat(clientId, independentId);
+	public ChatDTO Start(@RequestParam Long sendUserId,  @RequestParam Long receiveUserId) {
+		return service.startChat(sendUserId, receiveUserId);
+	}
+	
+	@GetMapping("/list")
+	public List<Object[]> Start(@RequestParam Long id) {
+		return service.listChats(id);
 	}
 	
 	@PostMapping("/message")
-	public void Message(@RequestBody Message msg) {
-		System.out.println("AQUI");
-		service.addMessage(msg);
+	public Message Message(@RequestBody Message msg) {
+		return service.addMessage(msg);
 	}
 }

@@ -1,5 +1,5 @@
 // ChatScreen.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -15,35 +15,63 @@ import { MensageUser, MensageWorker } from "../../components/mensage";
 import HeaderComponent from "../../components/headerComponent";
 import HeaderChat from "../../components/headerChat";
 
-export function Conversation() {
+import ChatService from '../../services/chatService'
+
+import UserInstance from "../../constants/userInstance";
+
+export function Conversation({ route, socketProvider }) {
+
+  const { socket } = socketProvider
+
+  const { user } = route.params
+
+  const client = new UserInstance().getData()
+
   const [messages, setMessages] = useState([]);
+  const [chatId, setChatId] = useState(null)
   const [inputText, setInputText] = useState('');
 
+  const { startChat } = ChatService()
+
+
+  const initializeChat = useCallback(async () => {
+    const chat = await startChat(client.id, user.id)
+
+    setChatId(chat.chatId)
+
+    if (chat.messages && chat.messages.length) {
+      setMessages(chat.messages)
+    }
+
+  }, [])
+
+
   useEffect(() => {
-    // Inicialize as mensagens (exemplo)
-    setMessages([
-      { id: '1', text: 'Olá!', sender: 'user' },
-      { id: '2', text: 'Oi, como posso ajudar?', sender: 'bot' },
-    ]);
+    initializeChat()
   }, []);
 
+  useEffect(() => {
+    socket.on('messageResponse', (data) => {
+      setMessages(old => [...old, data])
+    });
+  }, [socket]);
+
+
   const renderMessage = ({ item }) => {
-    
-    if(item.sender === 'user')
-      return(
-      <MensageUser text={item.text} />
-    )
-    else
-    return(
-      <MensageWorker text={item.text} />
-    )
-}
+    if (Number(item.userId) == Number(client.id)) return <MensageUser text={item.text} />
+    else return <MensageWorker text={item.text} />
+  }
 
   const handleSend = () => {
-    if (inputText.trim() === '') return
+    if (inputText.trim() === '' || !chatId) return
 
-    const newMessage = { id: messages.length + 1, text: inputText, sender: 'user' }
-    setMessages([...messages, newMessage])
+    socket.emit('message', {
+      text: inputText,
+      id: chatId,
+      socketID: socket.id,
+      userId: Number(client.id)
+    });
+
     setInputText('')
   };
 
@@ -52,9 +80,7 @@ export function Conversation() {
       <HeaderComponent
         title='Conversa'
       />
-      <HeaderChat
-        name='Alexandre Souza Nunes'
-      />
+      <HeaderChat name={user.name} />
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id.toString()}
@@ -83,7 +109,7 @@ export function Conversation() {
 const stylesConversation = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#F1F6F9'
+    backgroundColor: '#F1F6F9'
   },
   messagesContainer: {
     padding: 10,
@@ -103,7 +129,7 @@ const stylesConversation = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor:'#F1F6F9'
+    backgroundColor: '#F1F6F9'
   },
   input: {
     flex: 1,
@@ -113,7 +139,7 @@ const stylesConversation = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     marginRight: 10,
-    elevation:5
+    elevation: 5
   },
   sendButton: {
     backgroundColor: '#F1F6F9',

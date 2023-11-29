@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 public class UserModel {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "1")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long Id;
 
 	@Column(nullable = false)

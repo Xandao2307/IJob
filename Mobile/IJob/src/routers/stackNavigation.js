@@ -1,122 +1,30 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Login, Scheduling, Conversation, Assessement, ChatPage, Profile, Register, ServiceProviderPage, SearchServiceProviderPage, ShowEmployes, Historic, Details } from "../pages/screens";
+import { Login, Scheduling, Conversation, Assessement, Register, ServiceProviderPage, ShowEmployes, Historic, Details } from "../pages/screens";
 import { ShowButtonTabs } from './ButtonTabs';
 
 const Stack = createNativeStackNavigator()
 
-export default function LoginScreen() {
-   
-   return(
+export default function Routes(socket) {
+    return (
         <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{headerShown:false}}
+            initialRouteName="Login"
+            screenOptions={{ headerShown: false }}
         >
             <Stack.Screen name='Login' component={Login} />
-            <Stack.Screen name='Register' component={Register}/>
-            <Stack.Screen name='ServiceProvider' component={ServiceProviderPage}/>
-            <Stack.Screen name='ShowEmployes' component={ShowEmployes}/>
-            <Stack.Screen name='Historic' component={Historic}/>
-            <Stack.Screen name='Details' component={Details}/>
-            <Stack.Screen name='Assessement' component={Assessement}/>
-            <Stack.Screen name='Scheduling' component={Scheduling}/>
-            <Stack.Screen name='Conversation' component={Conversation}/>
-            <Stack.Screen name='Home' component={ShowButtonTabs}/>
-        </Stack.Navigator>
-    )
-}
-
-export function LoginNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Login' component={Login}/>
-        </Stack.Navigator>
-    )
-}
-
-export function RegisterNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Register' component={Register}/>
-        </Stack.Navigator>
-    )
-}
-
-export function HomeNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Home' component={ShowButtonTabs}/>
-        </Stack.Navigator>
-    )
-}
-export function ServiceProviderNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='ServiceProvider' component={ServiceProviderPage}/>
-        </Stack.Navigator>
-    )
-}
-
-export function ChatNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Chat' component={ChatPage}/>
-        </Stack.Navigator>
-    )
-}
-
-export function ProfileNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Profile' component={Profile}/>
-        </Stack.Navigator>
-    )
-}
-
-export function SearchServiceProviderNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name='SearchServiceProvider' component={SearchServiceProviderPage}/>
-        </Stack.Navigator>
-    )
-}
-
-export function HistoricNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name='Historic' component={Historic}/>
-        </Stack.Navigator>
-    )
-}
-
-export function DetailsNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Details' component={Details}/>
-        </Stack.Navigator>
-    )
-}
-
-export function AssessementNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Assessement' component={Assessement}/>
-        </Stack.Navigator>
-    )
-}
-
-export function SchedulingNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Scheduling' component={Scheduling}/>
-        </Stack.Navigator>
-    )
-}
-
-export function ConversationNavigation() {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen options={{headerShown:false}} name='Conversation' component={Conversation}/>
+            <Stack.Screen name='Register' component={Register} />
+            <Stack.Screen name='ServiceProvider' component={ServiceProviderPage} />
+            <Stack.Screen name='ShowEmployes' component={ShowEmployes} />
+            <Stack.Screen name='Historic' component={Historic} />
+            <Stack.Screen name='Details' component={Details} />
+            <Stack.Screen name='Assessement' component={Assessement} />
+            <Stack.Screen name='Scheduling' component={Scheduling} />
+            <Stack.Screen name='Conversation' children={({ route }) => {
+                return <Conversation route={route} socketProvider={socket} />
+            }} />
+            <Stack.Screen name='Home' children={({ route }) => {
+                return <ShowButtonTabs route={route} socketProvider={socket} />
+            }} />
         </Stack.Navigator>
     )
 }

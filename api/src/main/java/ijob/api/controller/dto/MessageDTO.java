@@ -9,14 +9,10 @@ import jakarta.persistence.GenerationType;
 
 public class MessageDTO {
 
-
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String Text;
+	private String text;
 	private LocalDateTime created;
 	private Long userId;
-	private Long chatId;
-
 	
 	public static MessageDTO converter(Message m) {
 		MessageDTO message =  new MessageDTO();
@@ -24,7 +20,7 @@ public class MessageDTO {
 		message.setId(m.getId());
 		message.setText(m.getText());
 		message.setCreated(m.getCreated());
-		message.setUserId(m.getId());
+		message.setUserId(m.getUserId());
 		
 		return message;
 	}
@@ -39,11 +35,11 @@ public class MessageDTO {
 
 
 	public String getText() {
-		return Text;
+		return text;
 	}
 
-	public void setText(String text) {
-		Text = text;
+	public void setText(String _text) {
+		text = _text;
 	}
 
 	public LocalDateTime getCreated() {
@@ -61,14 +57,5 @@ public class MessageDTO {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-
-	public Long getChatId() {
-		return chatId;
-	}
-
-	public void setChatId(Long chatId) {
-		this.chatId = chatId;
-	}
-	
 	
 }

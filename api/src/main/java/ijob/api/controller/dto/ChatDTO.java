@@ -5,7 +5,6 @@ import java.util.List;
 
 public class ChatDTO {
 
-
 	private Long chatId;
 	private List<MessageDTO> messages;
 	

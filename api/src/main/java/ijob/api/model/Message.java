@@ -2,6 +2,7 @@ package ijob.api.model;
 
 import java.time.LocalDateTime;
 
+import ijob.api.controller.dto.MessageDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,11 +13,11 @@ public class Message {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(targetEntity = ChatModel.class)
-	private ChatModel chat;
+	@Column(nullable = false)
+	private Long chatId;
 
 	@Column(nullable = false)
-	private String Text;
+	private String text;
 
 	@Column(nullable = false)
 	private LocalDateTime created;
@@ -24,6 +25,13 @@ public class Message {
 	@Column(nullable = false)
 	private Long userId;
 
+	
+	public Message(MessageDTO msg) {}
+
+
+	public Message() {}
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -32,20 +40,20 @@ public class Message {
 		this.id = id;
 	}
 
-	public ChatModel getChat() {
-		return chat;
+	public Long getChat() {
+		return chatId;
 	}
 
-	public void setChat(ChatModel chatId) {
-		this.chat = chatId;
+	public void setChatId(Long chatId) {
+		this.chatId = chatId;
 	}
 
 	public String getText() {
-		return Text;
+		return text;
 	}
 
-	public void setText(String text) {
-		Text = text;
+	public void setText(String _text) {
+		text = _text;
 	}
 
 	public LocalDateTime getCreated() {
