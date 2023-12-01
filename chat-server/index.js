@@ -24,7 +24,6 @@ io.on('connection', (socket) => {
 
   //Listens and logs the message to the console
   socket.on('message', async (data) => {
-    console.log('msg', data);
 
     const msg = {
       text: data.text,
